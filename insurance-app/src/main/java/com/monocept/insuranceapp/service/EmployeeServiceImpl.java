@@ -2,11 +2,13 @@ package com.monocept.insuranceapp.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.monocept.insuranceapp.entity.Employee;
 
-public class EmployeeServiceImpl implements EmployeeService {
 
-	
+@Service
+public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee addEmployee(Employee employee) {
@@ -20,11 +22,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	}
 
-
 	@Override
 	public void manageAgent(int agentId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -42,7 +43,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void withdrawal() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
