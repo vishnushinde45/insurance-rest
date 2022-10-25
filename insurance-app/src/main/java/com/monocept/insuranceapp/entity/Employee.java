@@ -8,18 +8,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "employee")
 public class Employee {
-
 	@Id
 	@Column(name = "id")
 	private int id;
-	@Column(name = "first_name")
+	
+	@Column(name = "full_name")
 	private String fullName;
+	
 	@Column(name = "user_name")
 	private String userName;
+	
 	@Column(name = "password")
 	private String password;
+	
 	@Column(name = "status")
 	private String status;
+	
 	@Column(name = "admin_id")
 	private int adminId;
 
