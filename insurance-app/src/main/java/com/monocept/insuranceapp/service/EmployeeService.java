@@ -20,6 +20,8 @@ public interface EmployeeService {
 	
 	Employee getEmployee(int employeeId);
 
+	int updateEmployee(Employee employee);
+
 	
 
 }

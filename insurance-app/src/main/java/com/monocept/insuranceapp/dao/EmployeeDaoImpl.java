@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.monocept.insuranceapp.entity.Customer;
 import com.monocept.insuranceapp.entity.Employee;
 
 @Repository
@@ -33,8 +34,19 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	@Override
 	public int addEmployee(Employee employee) {
 		Session session = entityManager.unwrap(Session.class);
-		session.saveOrUpdate(employee);
+		if(checkUserIsAlreadyExist(employee)) {
+			throw new RuntimeException("Employee is Already Exist..");
+		}else {
+			session.saveOrUpdate(employee);
+		}
+		
 		return employee.getId();
+	}
+	
+	public boolean checkUserIsAlreadyExist(Employee employee) {
+		List<Employee> employees = this.getEmployees();
+		return employees.stream().anyMatch(emp->emp.getUsername().equalsIgnoreCase(employee.getUsername()));
+		 
 	}
 
 	@Override
@@ -42,6 +54,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		Session session = entityManager.unwrap(Session.class);
 		Employee employee = session.get(Employee.class, employeeId);
 		session.delete(employee);
+	}
+
+	@Override
+	public int updateEmployee(Employee employee) {
+		Session session = entityManager.unwrap(Session.class);
+		session.saveOrUpdate(employee);
+		return employee.getId();
+
 	}
 
 }

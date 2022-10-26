@@ -42,15 +42,14 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/employees")
-	public int addCustomer(@RequestBody Employee employee) {
-		employee.setId(0);
+	public int addEmployee(@RequestBody Employee employee) {
 		int id=employeeService.addEmployee(employee);
 		return id;
 	}
 	
 	@PutMapping("/employees")
-	public int updateCustomer(@RequestBody Employee employee) {
-		int id=employeeService.addEmployee(employee);
+	public int updateEmployee(@RequestBody Employee employee) {
+		int id=employeeService.updateEmployee(employee);
 		return id;
 	}
 	

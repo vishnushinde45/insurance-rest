@@ -59,4 +59,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDao.getEmployee(employeeId);
 	}
 
+	@Override
+	@Transactional
+	public int updateEmployee(Employee employee) {
+		return employeeDao.updateEmployee(employee);
+	}
+
 }
