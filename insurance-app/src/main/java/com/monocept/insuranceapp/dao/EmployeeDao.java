@@ -13,10 +13,10 @@ public interface EmployeeDao {
 
 	Employee getEmployee(int employeeId);
 
-	int addEmployee(Employee employee);
+	Employee addEmployee(Employee employee);
 
-	void deleteEmployee(int employeeId);
+	Employee deleteEmployee(int employeeId);
 
-	int updateEmployee(Employee employee);
+	Employee updateEmployee(Employee employee);
     
 }

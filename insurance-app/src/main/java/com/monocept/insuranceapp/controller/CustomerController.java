@@ -1,7 +1,6 @@
 package com.monocept.insuranceapp.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.monocept.insuranceapp.entity.Customer;
 import com.monocept.insuranceapp.service.CustomerService;
 
+
 @RestController
 @RequestMapping("/insurance")
 public class CustomerController {
@@ -30,6 +30,7 @@ public class CustomerController {
 		List<Customer> customers = customerService.getCustomers();
 		return customers;
 	}
+	
 	
 	@GetMapping("/customers/{customerId}")
 	public ResponseEntity<?> getCustomer(@PathVariable int customerId) {
@@ -44,22 +45,24 @@ public class CustomerController {
 	
 	@PostMapping("/customers")
 	public ResponseEntity<?> addCustomer(@RequestBody Customer customer) {
+		customer.setId(0);
 		try {
-			return new ResponseEntity<Integer>(customerService.addCustomer(customer),HttpStatus.OK);
+			return new ResponseEntity<Customer>(customerService.addCustomer(customer),HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PutMapping("/customers")
-	public int updateCustomer(@RequestBody Customer customer) {
-		int id=customerService.updateCustomer(customer);
-		return id;
+	public Customer updateCustomer(@RequestBody Customer customer) {
+		Customer cust=customerService.updateCustomer(customer);
+		return cust;
 	}
 	
 	@DeleteMapping("/customers/{customerId}")
-	public void deleteCustomer(@PathVariable int customerId) {
-		customerService.deleteCustomer(customerId);
+	public Customer deleteCustomer(@PathVariable int customerId) {
+		Customer customer = customerService.deleteCustomer(customerId);
+		return customer;
 		
 	}
 	

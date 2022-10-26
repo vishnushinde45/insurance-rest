@@ -32,24 +32,25 @@ public class CustomerDaoImpl implements CustomerDao {
 	}
 
 	@Override
-	public void deleteCustomer(int customerId) {
+	public Customer deleteCustomer(int customerId) {
 		Session session = entityManager.unwrap(Session.class);
 		Customer customer = session.get(Customer.class, customerId);
 		session.delete(customer);
+		return customer;
 		
 	}
 
 	@Override
-	public int addCustomer(Customer customer) {
+	public Customer addCustomer(Customer customer) {
 		Session session = entityManager.unwrap(Session.class);
 		boolean isAlreadyExist=this.checkUserIsAlreadyExist(customer);
 		if(isAlreadyExist) {
-			throw new RuntimeException("username is already exist, please try some other names");
+			throw new RuntimeException("Customer is already Exists");
 		}else {
 			session.saveOrUpdate(customer);
 		}
 		
-		return customer.getId();
+		return customer;
 	}
 
 	@Override
@@ -66,10 +67,10 @@ public class CustomerDaoImpl implements CustomerDao {
 	}
 
 	@Override
-	public int updateCustomer(Customer customer) {
+	public Customer updateCustomer(Customer customer) {
 		Session session = entityManager.unwrap(Session.class);
 		session.saveOrUpdate(customer);
-		return customer.getId();
+		return customer;
 	}
 
 }

@@ -9,11 +9,11 @@ import com.monocept.insuranceapp.entity.Customer;
 public interface CustomerDao {
 	Customer getCustomer(int customerId);
 
-	void deleteCustomer(int customerId);
+	Customer deleteCustomer(int customerId);
 
-	int addCustomer(Customer customer);
+	Customer addCustomer(Customer customer);
 
 	List<Customer> getCustomers();
 
-	int updateCustomer(Customer customer);
+	Customer updateCustomer(Customer customer);
 }

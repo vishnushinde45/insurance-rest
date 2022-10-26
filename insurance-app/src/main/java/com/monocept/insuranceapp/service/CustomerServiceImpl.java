@@ -13,28 +13,7 @@ import com.monocept.insuranceapp.entity.Customer;
 public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
-	private CustomerDao customerDao;
-
-
-	@Override
-	@Transactional
-	public List<Customer> getCustomers() {
-		return customerDao.getCustomers();
-	}
-
-	@Override
-	@Transactional
-	public int addCustomer(Customer customer) {
-		
-		return customerDao.addCustomer(customer);
-	}
-
-	@Override
-	@Transactional
-	public void deleteCustomer(int customerId) {
-		customerDao.deleteCustomer(customerId);
-
-	}
+	CustomerDao customerDao;
 
 	@Override
 	@Transactional
@@ -44,9 +23,26 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	@Transactional
-	public int updateCustomer(Customer customer) {
-		
+	public List<Customer> getCustomers() {
+		return customerDao.getCustomers();
+	}
+
+	@Override
+	@Transactional
+	public Customer addCustomer(Customer customer) {
+		return customerDao.addCustomer(customer);
+	}
+
+	@Override
+	@Transactional
+	public Customer updateCustomer(Customer customer) {
 		return customerDao.updateCustomer(customer);
+	}
+
+	@Override
+	@Transactional
+	public Customer deleteCustomer(int customerId) {
+		return customerDao.deleteCustomer(customerId);
 	}
 
 }

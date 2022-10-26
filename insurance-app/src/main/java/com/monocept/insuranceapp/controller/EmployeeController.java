@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.monocept.insuranceapp.entity.Customer;
 import com.monocept.insuranceapp.entity.Employee;
 import com.monocept.insuranceapp.service.EmployeeService;
 
@@ -42,20 +41,21 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/employees")
-	public int addEmployee(@RequestBody Employee employee) {
-		int id=employeeService.addEmployee(employee);
-		return id;
+	public Employee addEmployee(@RequestBody Employee employee) {
+		Employee emp=employeeService.addEmployee(employee);
+		return emp;
 	}
 	
 	@PutMapping("/employees")
-	public int updateEmployee(@RequestBody Employee employee) {
-		int id=employeeService.updateEmployee(employee);
-		return id;
+	public Employee updateEmployee(@RequestBody Employee employee) {
+		Employee emp=employeeService.updateEmployee(employee);
+		return emp;
 	}
 	
 	@DeleteMapping("/employees/{employeeId}")
-	public void deleteCustomer(@PathVariable int employeeId) {
-		employeeService.deleteEmployee(employeeId);
+	public Employee deleteCustomer(@PathVariable int employeeId) {
+		Employee employee = employeeService.deleteEmployee(employeeId);
+		return employee;
 		
 	}
 	
