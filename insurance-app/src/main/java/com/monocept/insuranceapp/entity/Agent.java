@@ -18,6 +18,9 @@ public class Agent {
 	@Column(name = "full_name")
 	private String fullName;
 	
+	@Column(name = "user_name")
+	private String username;
+	
 	@Column(name = "password")
 	private String password;
 	
@@ -43,12 +46,13 @@ public class Agent {
 	private String agentCode;
 
 	public Agent() {}
-	
-	public Agent(int id, String fullName, String password, String state, String city, String emailId,
+
+	public Agent(int id, String fullName, String username, String password, String state, String city, String emailId,
 			String qualification, String status, int employeeId, String agentCode) {
 		super();
 		this.id = id;
 		this.fullName = fullName;
+		this.username = username;
 		this.password = password;
 		this.state = state;
 		this.city = city;
@@ -73,6 +77,14 @@ public class Agent {
 
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -141,10 +153,12 @@ public class Agent {
 
 	@Override
 	public String toString() {
-		return "Agent [id=" + id + ", fullName=" + fullName + ", password=" + password + ", state=" + state + ", city="
-				+ city + ", emailId=" + emailId + ", qualification=" + qualification + ", status=" + status
-				+ ", employeeId=" + employeeId + ", agentCode=" + agentCode + "]";
+		return "Agent [id=" + id + ", fullName=" + fullName + ", username=" + username + ", password=" + password
+				+ ", state=" + state + ", city=" + city + ", emailId=" + emailId + ", qualification=" + qualification
+				+ ", status=" + status + ", employeeId=" + employeeId + ", agentCode=" + agentCode + "]";
 	}
+	
+	
 	
 	
 }
