@@ -23,41 +23,43 @@ import com.monocept.insuranceapp.service.CustomerService;
 public class CustomerController {
 	
 	@Autowired
-	private CustomerService service;
+	private CustomerService customerService;
 	
 	@GetMapping("/customers")
 	public List<Customer> getCustomers(){
-		List<Customer> customers = service.getCustomers();
+		List<Customer> customers = customerService.getCustomers();
 		return customers;
 	}
 	
 	@GetMapping("/customers/{customerId}")
 	public ResponseEntity<?> getCustomer(@PathVariable int customerId) {
-		if(service.getCustomer(customerId)==null) {
+		if(customerService.getCustomer(customerId)==null) {
 			 return new ResponseEntity<String>("Customer Not Found..",HttpStatus.BAD_REQUEST);
 			
 		}
-		return new ResponseEntity<Customer>(service.getCustomer(customerId),HttpStatus.OK);
+		return new ResponseEntity<Customer>(customerService.getCustomer(customerId),HttpStatus.OK);
 		
 	   
 	}
 	
 	@PostMapping("/customers")
-	public int addCustomer(@RequestBody Customer customer) {
-		customer.setId(0);
-		int id=service.addCustomer(customer);
-		return id;
+	public ResponseEntity<?> addCustomer(@RequestBody Customer customer) {
+		try {
+			return new ResponseEntity<Integer>(customerService.addCustomer(customer),HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PutMapping("/customers")
 	public int updateCustomer(@RequestBody Customer customer) {
-		int id=service.addCustomer(customer);
+		int id=customerService.updateCustomer(customer);
 		return id;
 	}
 	
 	@DeleteMapping("/customers/{customerId}")
 	public void deleteCustomer(@PathVariable int customerId) {
-		service.deleteCustomer(customerId);
+		customerService.deleteCustomer(customerId);
 		
 	}
 	

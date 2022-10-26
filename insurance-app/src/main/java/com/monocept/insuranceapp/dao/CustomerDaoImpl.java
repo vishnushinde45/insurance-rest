@@ -42,7 +42,13 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public int addCustomer(Customer customer) {
 		Session session = entityManager.unwrap(Session.class);
-		session.saveOrUpdate(customer);
+		boolean isAlreadyExist=this.checkUserIsAlreadyExist(customer);
+		if(isAlreadyExist) {
+			throw new RuntimeException("username is already exist, please try some other names");
+		}else {
+			session.saveOrUpdate(customer);
+		}
+		
 		return customer.getId();
 	}
 
@@ -51,6 +57,19 @@ public class CustomerDaoImpl implements CustomerDao {
 		Session session = entityManager.unwrap(Session.class);
 		List resultList = session.createQuery("from Customer").getResultList();
 		return resultList;
+	}
+	
+	public boolean checkUserIsAlreadyExist(Customer customer) {
+		List<Customer> customers = this.getCustomers();
+		return customers.stream().anyMatch(cust->cust.getUsername().equalsIgnoreCase(customer.getUsername()));
+		 
+	}
+
+	@Override
+	public int updateCustomer(Customer customer) {
+		Session session = entityManager.unwrap(Session.class);
+		session.saveOrUpdate(customer);
+		return customer.getId();
 	}
 
 }

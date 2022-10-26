@@ -2,24 +2,30 @@ package com.monocept.insuranceapp.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.monocept.insuranceapp.dao.EmployeeDao;
 import com.monocept.insuranceapp.entity.Employee;
-
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+	@Autowired
+	EmployeeDao employeeDao;
+
 	@Override
-	public Employee addEmployee(Employee employee) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public int addEmployee(Employee employee) {
+		return employeeDao.addEmployee(employee);
 	}
 
 	@Override
+	@Transactional
 	public void deleteEmployee(int employeeId) {
-		// TODO Auto-generated method stub
-
+		employeeDao.deleteEmployee(employeeId);
+    
 	}
 
 	@Override
@@ -35,15 +41,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
+	@Transactional
 	public List<Employee> getEmployees() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return employeeDao.getEmployees();
 	}
 
 	@Override
 	public void withdrawal() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	@Transactional
+	public Employee getEmployee(int employeeId) {
+		return employeeDao.getEmployee(employeeId);
 	}
 
 }

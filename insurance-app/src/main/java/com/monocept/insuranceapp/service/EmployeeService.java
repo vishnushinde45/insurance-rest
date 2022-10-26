@@ -2,20 +2,24 @@ package com.monocept.insuranceapp.service;
 
 import java.util.List;
 
+import com.monocept.insuranceapp.entity.Customer;
 import com.monocept.insuranceapp.entity.Employee;
 
 public interface EmployeeService {
-	public List<Employee> getEmployees();
+	List<Employee> getEmployees();
 
-	public Employee addEmployee(Employee employee);
+	int addEmployee(Employee employee);
 
-	public void deleteEmployee(int employeeId);
+	void deleteEmployee(int employeeId);
 
-	public Employee viewEmployeeById(int employeeId);
+	Employee viewEmployeeById(int employeeId);
+
+	void manageAgent(int agentId);
+
+	void withdrawal();
 	
-	public void manageAgent(int agentId);
+	Employee getEmployee(int employeeId);
+
 	
-	public void withdrawal();
-	
-	
+
 }
