@@ -19,7 +19,7 @@ import com.monocept.insuranceapp.service.CustomerService;
 
 
 @RestController
-@RequestMapping("/insurance")
+@RequestMapping("/api")
 public class CustomerController {
 	
 	@Autowired

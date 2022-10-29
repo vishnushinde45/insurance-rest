@@ -18,7 +18,7 @@ import com.monocept.insuranceapp.entity.Agent;
 import com.monocept.insuranceapp.service.AgentService;
 
 @RestController
-@RequestMapping("/insurance")
+@RequestMapping("/api")
 public class AgentController {
  
 	@Autowired

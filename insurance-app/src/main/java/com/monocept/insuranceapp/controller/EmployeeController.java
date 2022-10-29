@@ -18,7 +18,7 @@ import com.monocept.insuranceapp.entity.Employee;
 import com.monocept.insuranceapp.service.EmployeeService;
 
 @RestController
-@RequestMapping("/insurance")
+@RequestMapping("/api")
 public class EmployeeController {
   
 	@Autowired
