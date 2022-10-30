@@ -11,4 +11,7 @@ public interface CustomerService {
 	Customer addCustomer(Customer customer);
 	Customer updateCustomer(Customer customer);
 	Customer deleteCustomer(int customerId);
+	Customer login(Customer customer);
+	Customer getCustomerByUsername(String username);
+	
 }

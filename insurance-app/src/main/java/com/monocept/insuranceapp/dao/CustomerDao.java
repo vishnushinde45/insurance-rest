@@ -16,4 +16,9 @@ public interface CustomerDao {
 	List<Customer> getCustomers();
 
 	Customer updateCustomer(Customer customer);
+
+	Customer login(Customer customer);
+
+	Customer getCustomerByUsername(String username);
+
 }
