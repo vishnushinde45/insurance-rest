@@ -1,11 +1,12 @@
-package com.monocept.insuranceapp.service;
+package com.monocept.insuranceapp.dao;
 
 import java.util.List;
 
 import com.monocept.insuranceapp.entity.Admin;
 
-public interface AdminService{
+public interface AdminDao {
 
+	Admin getByUsername(String username);
 
 	Admin login(Admin admin);
 
