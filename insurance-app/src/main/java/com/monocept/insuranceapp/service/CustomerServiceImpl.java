@@ -48,7 +48,6 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	@Transactional
 	public Customer login(Customer customer) {
-		// TODO Auto-generated method stub
 		return customerDao.login(customer);
 	}
 

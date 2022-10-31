@@ -38,7 +38,7 @@ public class Employee {
 
 	public Employee() {
 		super();
-		// TODO Auto-generated constructor stub
+	
 	}
 
 	public Employee(int id, String fullName, String username, String password, String state, String city, String status,
