@@ -1,10 +1,12 @@
 package com.monocept.insuranceapp.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -35,6 +37,9 @@ public class InsurancePlan {
 
 	@Column(name = "profit_ratio")
 	private double profitRatio;
+
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "insurancePlan")
+	private InsuranceScheme insuranceScheme;
 
 	public InsurancePlan() {
 		super();
@@ -116,6 +121,14 @@ public class InsurancePlan {
 
 	public void setProfitRatio(double profitRatio) {
 		this.profitRatio = profitRatio;
+	}
+
+	public InsuranceScheme getInsuranceScheme() {
+		return insuranceScheme;
+	}
+
+	public void setInsuranceScheme(InsuranceScheme insuranceScheme) {
+		this.insuranceScheme = insuranceScheme;
 	}
 
 	@Override

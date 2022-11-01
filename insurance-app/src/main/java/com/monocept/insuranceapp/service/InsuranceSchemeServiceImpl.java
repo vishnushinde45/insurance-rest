@@ -1,5 +1,7 @@
 package com.monocept.insuranceapp.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +18,15 @@ public class InsuranceSchemeServiceImpl implements InsuranceSchemeService {
 	
 	@Override
 	@Transactional
-	public InsuranceScheme addInsuranceScheme(InsuranceScheme insuranceScheme) {
-		return insuranceSchemeDao.addInsuranceScheme(insuranceScheme);
+	public InsuranceScheme addInsuranceScheme(InsuranceScheme insuranceScheme, int id) {
+		return insuranceSchemeDao.addInsuranceScheme(insuranceScheme,id);
+	}
+
+	@Override
+	@Transactional
+	public List<InsuranceScheme> getInsuranceSchemes() {
+		// TODO Auto-generated method stub
+		return insuranceSchemeDao.getInsuranceSchemes();
 	}
 
 }

@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.monocept.insuranceapp.entity.InsurancePlan;
 import com.monocept.insuranceapp.entity.InsuranceScheme;
+import com.monocept.insuranceapp.entity.InsuranceSettings;
 import com.monocept.insuranceapp.entity.InsuranceType;
 import com.monocept.insuranceapp.image.ImageRepository;
 import com.monocept.insuranceapp.image.ImageService;
 import com.monocept.insuranceapp.image.SchemeImage;
+import com.monocept.insuranceapp.service.InsurancePlanService;
 import com.monocept.insuranceapp.service.InsuranceSchemeService;
+import com.monocept.insuranceapp.service.InsuranceSettingsService;
 import com.monocept.insuranceapp.service.InsuranceTypeService;
 
 @RestController
@@ -36,13 +40,18 @@ public class InsuranceController {
 
 	@Autowired
 	private ImageService imageService;
-	
+
 	@Autowired
 	private InsuranceTypeService insuranceTypeService;
-	
+
 	@Autowired
 	private InsuranceSchemeService insuranceSchemeService;
-
+	
+	@Autowired
+	private InsurancePlanService insurancePlanService;
+	
+	@Autowired
+	private InsuranceSettingsService insuranceSettingService;
 
 	@PostMapping("/upload")
 	public ResponseEntity<String> uplaodImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
@@ -62,30 +71,60 @@ public class InsuranceController {
 				imageService.decompressBytes(retrievedImage.get().getPicByte()));
 		return img;
 	}
-	
+
 	@GetMapping("/insurance-type")
-	public List<InsuranceType> getInsuranceTypes(){
-		List<InsuranceType> insuranceTypes=insuranceTypeService.getInsuranceTypes();
-		
+	public List<InsuranceType> getInsuranceTypes() {
+		List<InsuranceType> insuranceTypes = insuranceTypeService.getInsuranceTypes();
+
 		return insuranceTypes;
-		
+
 	}
-	
+
 	@PostMapping("/insurance-type")
-	public ResponseEntity<?> addInsuranceType(@RequestBody InsuranceType insuranceType){
-		InsuranceType result=insuranceTypeService.addInsuranceType(insuranceType);
-		return new ResponseEntity<InsuranceType>(result,HttpStatus.OK);
-		
+	public ResponseEntity<?> addInsuranceType(@RequestBody InsuranceType insuranceType) {
+		InsuranceType result = insuranceTypeService.addInsuranceType(insuranceType);
+		return new ResponseEntity<InsuranceType>(result, HttpStatus.OK);
+
+	}
+
+	@PostMapping("/insurance-scheme/{insuranceTypeId}")
+	public ResponseEntity<String> addInsuranceScheme(@RequestBody InsuranceScheme insuranceScheme,
+			@PathVariable("insuranceTypeId") int id) {
+
+		InsuranceScheme insuScheme = insuranceSchemeService.addInsuranceScheme(insuranceScheme, id);
+		if (insuScheme == null)
+			return new ResponseEntity<String>("unable to add scheme", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<String>("Scheme Added successfully", HttpStatus.OK);
+	}
+
+	@GetMapping("/insurance-scheme")
+	public List<InsuranceScheme> getInsuranceSchemes(){
+		List<InsuranceScheme> schemes=insuranceSchemeService.getInsuranceSchemes();
+		return schemes;
+	}
+
+	@PostMapping("/insurance-plan/{insuranceTypeId}/{insuranceSchemeId}")
+	public ResponseEntity<?> addInsurancePlan(@RequestBody InsurancePlan insurancePlan
+			,@PathVariable("insuranceTypeId") int insuranceTypeId,@PathVariable("insuranceSchemeId") int insuranceSchemeId){
+		  
+		insurancePlanService.addInsurancePlan(insurancePlan,insuranceTypeId,insuranceSchemeId);
+		return new ResponseEntity<String>("Plan Added",HttpStatus.OK);
 	}
 	
-	@PostMapping("/insurance-scheme/{insuranceTypeId}")
-	public ResponseEntity<String> addInsuranceScheme(@RequestBody InsuranceScheme insuranceScheme,@PathVariable("insuranceTypeId") int id){
-		System.out.println(id);
-		InsuranceScheme insuScheme=insuranceSchemeService.addInsuranceScheme(insuranceScheme);
-		if(insuScheme==null)
-			return new ResponseEntity<String>("unable to add scheme",HttpStatus.BAD_REQUEST);
-		return new ResponseEntity<String>("Scheme Added successfully",HttpStatus.OK);
+	@PostMapping("/insurance-tax")
+	public ResponseEntity<?> addInsuranceTax(@RequestBody InsuranceSettings insuranceSettings){
+		InsuranceSettings setting= insuranceSettingService.save(insuranceSettings);
+		return new ResponseEntity<String>("Tax Added",HttpStatus.OK);
 	}
+	
+	@PostMapping("/insurance-claim-deduction")
+	public ResponseEntity<?> addClaimDeduction(@RequestBody InsuranceSettings insuranceSettings){
+		InsuranceSettings setting= insuranceSettingService.save(insuranceSettings);
+		return new ResponseEntity<String>("Tax Added",HttpStatus.OK);
+	}
+	
+	
+
 
 	
 

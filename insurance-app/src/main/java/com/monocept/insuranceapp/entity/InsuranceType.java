@@ -1,5 +1,6 @@
 package com.monocept.insuranceapp.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,8 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "insurance_type")
+@JsonIgnoreProperties(value = {
+	    "insuranceSchemes"
+	})
 public class InsuranceType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +32,7 @@ public class InsuranceType {
 	@Column(name = "status")
 	private String status;
 	
-	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.LAZY,mappedBy = "insuranceType")
 	private List<InsuranceScheme> insuranceSchemes;
 	
 	public InsuranceType() {}
@@ -37,6 +43,14 @@ public class InsuranceType {
 		this.insuranceType = insuranceType;
 		this.status = status;
 		this.insuranceSchemes = insuranceSchemes;
+	}
+	
+	public void addScheme(InsuranceScheme insuranceScheme) {
+		if(insuranceSchemes==null) {
+			insuranceSchemes=new ArrayList<InsuranceScheme>();
+		}
+		insuranceSchemes.add(insuranceScheme);
+		insuranceScheme.setInsuranceType(this);
 	}
 
 	public int getId() {

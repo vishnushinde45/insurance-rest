@@ -14,10 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.monocept.insuranceapp.image.SchemeImage;
 
 @Entity
 @Table(name = "insurance_scheme")
+@JsonIgnoreProperties(value = {
+	    "insurancePlan"
+	})
 public class InsuranceScheme {
 	
 	@Id
@@ -41,34 +45,39 @@ public class InsuranceScheme {
 	@Column(name = "status")
 	private String status;
 
-	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
-	@JoinColumn(name = "scheme_image_id")
-	private SchemeImage schemeImage;
 	
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "insurance_plan_id")
 	private InsurancePlan insurancePlan;
 	
 	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@JoinColumn(name = "insurance_type_id")
 	private InsuranceType insuranceType;
+
+	public InsuranceType getInsuranceType() {
+		return insuranceType;
+	}
+
+	public void setInsuranceType(InsuranceType insuranceType) {
+		this.insuranceType = insuranceType;
+	}
 
 	public InsuranceScheme() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public InsuranceScheme(int id, String insuranceSchemeName, Double commisionForNewRegistration,
-			Double commisionForInstallment, String description, String status, SchemeImage schemeImage,
-			InsurancePlan insurancePlan) {
+
+
+	
+	public InsuranceScheme(String insuranceSchemeName, Double commisionForNewRegistration,
+			Double commisionForInstallment, String description, String status) {
 		super();
-		this.id = id;
 		this.insuranceSchemeName = insuranceSchemeName;
 		this.commisionForNewRegistration = commisionForNewRegistration;
 		this.commisionForInstallment = commisionForInstallment;
 		this.description = description;
 		this.status = status;
-		this.schemeImage = schemeImage;
-		this.insurancePlan = insurancePlan;
 	}
 
 	public int getId() {
@@ -119,13 +128,6 @@ public class InsuranceScheme {
 		this.status = status;
 	}
 
-	public SchemeImage getSchemeImage() {
-		return schemeImage;
-	}
-
-	public void setSchemeImage(SchemeImage schemeImage) {
-		this.schemeImage = schemeImage;
-	}
 
 	public InsurancePlan getInsurancePlan() {
 		return insurancePlan;
@@ -135,13 +137,7 @@ public class InsuranceScheme {
 		this.insurancePlan = insurancePlan;
 	}
 
-	@Override
-	public String toString() {
-		return "InsuranceScheme [id=" + id + ", insuranceSchemeName=" + insuranceSchemeName
-				+ ", commisionForNewRegistration=" + commisionForNewRegistration + ", commisionForInstallment="
-				+ commisionForInstallment + ", description=" + description + ", status=" + status + ", schemeImage="
-				+ schemeImage + ", insurancePlan=" + insurancePlan + "]";
-	}
+
 	
 	
 
