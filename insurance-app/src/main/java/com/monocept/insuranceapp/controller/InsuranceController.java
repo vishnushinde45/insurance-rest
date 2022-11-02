@@ -32,7 +32,7 @@ import com.monocept.insuranceapp.service.InsuranceTypeService;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
+@CrossOrigin("http://localhost:4200")
 public class InsuranceController {
 
 	@Autowired
@@ -79,6 +79,7 @@ public class InsuranceController {
 		return insuranceTypes;
 
 	}
+	
 
 	@PostMapping("/insurance-type")
 	public ResponseEntity<?> addInsuranceType(@RequestBody InsuranceType insuranceType) {
@@ -102,6 +103,12 @@ public class InsuranceController {
 		List<InsuranceScheme> schemes=insuranceSchemeService.getInsuranceSchemes();
 		return schemes;
 	}
+	
+	@GetMapping("/insurance-scheme/{insuranceTypeId}")
+	public List<InsuranceScheme> getInsuranceSchemesByTypeId(@PathVariable("insuranceTypeId") int insuranceTypeId){
+		List<InsuranceScheme> schemes=insuranceSchemeService.getInsuranceSchemesByTypeId(insuranceTypeId);
+		return schemes;
+	}
 
 	@PostMapping("/insurance-plan/{insuranceTypeId}/{insuranceSchemeId}")
 	public ResponseEntity<?> addInsurancePlan(@RequestBody InsurancePlan insurancePlan
@@ -111,17 +118,19 @@ public class InsuranceController {
 		return new ResponseEntity<String>("Plan Added",HttpStatus.OK);
 	}
 	
-	@PostMapping("/insurance-tax")
+	@PostMapping("/insurance-tax-deduction")
 	public ResponseEntity<?> addInsuranceTax(@RequestBody InsuranceSettings insuranceSettings){
 		InsuranceSettings setting= insuranceSettingService.save(insuranceSettings);
 		return new ResponseEntity<String>("Tax Added",HttpStatus.OK);
 	}
 	
-	@PostMapping("/insurance-claim-deduction")
-	public ResponseEntity<?> addClaimDeduction(@RequestBody InsuranceSettings insuranceSettings){
-		InsuranceSettings setting= insuranceSettingService.save(insuranceSettings);
-		return new ResponseEntity<String>("Tax Added",HttpStatus.OK);
+	@GetMapping("/insurance-plan")
+	public List<InsurancePlan> getInsurancePlans(){
+		List<InsurancePlan> plans=insurancePlanService.getInsurancePlans();
+		return plans;
 	}
+	
+
 	
 	
 

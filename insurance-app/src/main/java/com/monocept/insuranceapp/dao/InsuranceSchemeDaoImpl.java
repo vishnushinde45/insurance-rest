@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +32,16 @@ public class InsuranceSchemeDaoImpl implements InsuranceSchemeDao {
 		Session session = entityManager.unwrap(Session.class);
 		List resultList = session.createQuery("from InsuranceScheme").getResultList();
 		return resultList;
+	}
+
+	@Override
+	public List<InsuranceScheme> getInsuranceSchemesByTypeId(int insuranceTypeId) {
+		Session session = entityManager.unwrap(Session.class);
+		InsuranceType insuranceType = session.get(InsuranceType.class, insuranceTypeId);
+		List<InsuranceScheme> insuranceSchemes = insuranceType.getInsuranceSchemes();
+		
+		return insuranceSchemes; 
+
 	}
 
 }

@@ -29,4 +29,11 @@ public class InsuranceSchemeServiceImpl implements InsuranceSchemeService {
 		return insuranceSchemeDao.getInsuranceSchemes();
 	}
 
+	@Override
+	@Transactional
+	public List<InsuranceScheme> getInsuranceSchemesByTypeId(int insuranceTypeId) {
+		// TODO Auto-generated method stub
+		return insuranceSchemeDao.getInsuranceSchemesByTypeId(insuranceTypeId);
+	}
+
 }

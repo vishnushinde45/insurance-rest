@@ -51,6 +51,17 @@ public class CustomerController {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PostMapping("/customers/{agentId}")
+	public ResponseEntity<?> addCustomerByAgent(@RequestBody Customer customer,@PathVariable int agentId) {
+		customer.setId(0);
+		customer.setAgentId(agentId);
+		try {
+			return new ResponseEntity<Customer>(customerService.addCustomerByAgent(customer), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 
 	@PutMapping("/customers")
 	public Customer updateCustomer(@RequestBody Customer customer) {

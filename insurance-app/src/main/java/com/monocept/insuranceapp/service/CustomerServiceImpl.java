@@ -58,6 +58,13 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.getCustomerByUsername(username);
 	}
 
+	@Override
+	@Transactional
+	public Customer addCustomerByAgent(Customer customer) {
+		// TODO Auto-generated method stub
+		return customerDao.addCustomerByAgent(customer);
+	}
+
 	
 
 }

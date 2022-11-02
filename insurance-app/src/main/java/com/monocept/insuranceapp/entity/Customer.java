@@ -55,7 +55,7 @@ public class Customer {
 	private String nomineeRelation;
 	
 	@Column(name = "agent_id")
-	private int agentId=0;
+	private int agentId;
 	
 	public Customer() {}
 

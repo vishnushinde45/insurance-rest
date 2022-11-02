@@ -10,4 +10,6 @@ public interface InsuranceSchemeService {
 
 	List<InsuranceScheme> getInsuranceSchemes();
 
+	List<InsuranceScheme> getInsuranceSchemesByTypeId(int insuranceTypeId);
+
 }

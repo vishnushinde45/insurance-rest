@@ -21,4 +21,6 @@ public interface CustomerDao {
 
 	Customer getCustomerByUsername(String username);
 
+	Customer addCustomerByAgent(Customer customer);
+
 }

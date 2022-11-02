@@ -10,4 +10,6 @@ public interface InsuranceSchemeDao {
 
 	List<InsuranceScheme> getInsuranceSchemes();
 
+	List<InsuranceScheme> getInsuranceSchemesByTypeId(int insuranceTypeId);
+
 }

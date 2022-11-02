@@ -45,4 +45,11 @@ public class AgentServiceImpl implements AgentService {
 		return agentDao.deleteAgent(agentId);
 	}
 
+	@Override
+	@Transactional
+	public Agent login(Agent agent) {
+		// TODO Auto-generated method stub
+		return agentDao.login(agent);
+	}
+
 }

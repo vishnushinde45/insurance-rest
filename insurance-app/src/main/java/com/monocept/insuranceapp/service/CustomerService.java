@@ -13,5 +13,6 @@ public interface CustomerService {
 	Customer deleteCustomer(int customerId);
 	Customer login(Customer customer);
 	Customer getCustomerByUsername(String username);
+	Customer addCustomerByAgent(Customer customer);
 	
 }

@@ -10,4 +10,5 @@ public interface AgentDao {
 	Agent addAgent(Agent agent);
 	Agent updateAgent(Agent agent);
 	Agent deleteAgent(int agentId);
+	Agent login(Agent agent);
 }

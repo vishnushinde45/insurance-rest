@@ -9,6 +9,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.monocept.insuranceapp.entity.Agent;
+import com.monocept.insuranceapp.entity.Commision;
 import com.monocept.insuranceapp.entity.Customer;
 
 @Repository
@@ -69,14 +71,13 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public Customer login(Customer customer) {
 		Session session = entityManager.unwrap(Session.class);
-		Customer result=null;
 		boolean isAuthenticated=authenticate(customer);
 		if(isAuthenticated)
-			result=this.getCustomerByUsername(customer.getUsername());
+			customer=this.getCustomerByUsername(customer.getUsername());
 		else
 			throw new RuntimeException("Invalid Customer Details");
 		
-		return result;
+		return customer;
 	}
 
 	private boolean authenticate(Customer customer) {
@@ -99,6 +100,19 @@ public class CustomerDaoImpl implements CustomerDao {
 		if(resultList!=null)
 			return (Customer) resultList.get(0);
 		return null;
+	}
+
+	@Override
+	public Customer addCustomerByAgent(Customer customer) {
+		Session session = entityManager.unwrap(Session.class);
+		boolean isAlreadyExist=this.checkUserIsAlreadyExist(customer);
+		if(isAlreadyExist) {
+			throw new RuntimeException("Customer is already Exists");
+		}else {
+			session.saveOrUpdate(customer);
+		}
+		
+		return customer;
 	}
 
 	

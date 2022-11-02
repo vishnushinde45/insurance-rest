@@ -20,7 +20,7 @@ import com.monocept.insuranceapp.image.SchemeImage;
 @Entity
 @Table(name = "insurance_scheme")
 @JsonIgnoreProperties(value = {
-	    "insurancePlan"
+	    "insurancePlan",
 	})
 public class InsuranceScheme {
 	

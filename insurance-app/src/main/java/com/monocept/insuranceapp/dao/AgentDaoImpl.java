@@ -6,9 +6,11 @@ import java.util.Random;
 import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.monocept.insuranceapp.entity.Admin;
 import com.monocept.insuranceapp.entity.Agent;
 
 @Repository
@@ -38,7 +40,6 @@ public class AgentDaoImpl implements AgentDao {
 			throw new RuntimeException("Agent is already Exists");
 		}else {
 			session.saveOrUpdate(agent);
-			agent.setAgentCode("AG"+agent.getId());
 			
 		}
 		
@@ -79,6 +80,38 @@ public class AgentDaoImpl implements AgentDao {
 	      .toString();
 
 	    return generatedString;
+	}
+
+	@Override
+	public Agent login(Agent agent) {
+		Session session = entityManager.unwrap(Session.class);
+		boolean isAuthenticated=authenticate(agent);
+		Agent result=null;
+		if(isAuthenticated)
+			result=this.getByUsername(agent.getUsername());
+		else
+			throw new RuntimeException("Invalid Agent Details");
+		
+		return result;
+	}
+	
+	private Agent getByUsername(String username) {
+		Session session = entityManager.unwrap(Session.class);
+		Query query = session.createQuery("from Agent where username=:userName");
+		query.setParameter("userName", username);
+		List resultList = query.getResultList();
+		if(resultList!=null)
+			return (Agent) resultList.get(0);
+		return null;
+	}
+
+	private boolean authenticate(Agent agent) {
+		Agent ag=this.getByUsername(agent.getUsername());
+		if(agent.getUsername().equals(ag.getUsername()) && agent.getPassword().equals(ag.getPassword()))
+			return true;
+		if(ag==null)
+			return false;
+		return false;
 	}
 
 }
