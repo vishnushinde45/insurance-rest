@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.monocept.insuranceapp.entity.EnrolledPolicies;
 import com.monocept.insuranceapp.entity.InsurancePlan;
 import com.monocept.insuranceapp.entity.InsuranceScheme;
 import com.monocept.insuranceapp.entity.InsuranceSettings;
@@ -25,6 +26,7 @@ import com.monocept.insuranceapp.entity.InsuranceType;
 import com.monocept.insuranceapp.image.ImageRepository;
 import com.monocept.insuranceapp.image.ImageService;
 import com.monocept.insuranceapp.image.SchemeImage;
+import com.monocept.insuranceapp.service.EnrolledPoliciesService;
 import com.monocept.insuranceapp.service.InsurancePlanService;
 import com.monocept.insuranceapp.service.InsuranceSchemeService;
 import com.monocept.insuranceapp.service.InsuranceSettingsService;
@@ -52,6 +54,9 @@ public class InsuranceController {
 	
 	@Autowired
 	private InsuranceSettingsService insuranceSettingService;
+	
+	@Autowired
+	private EnrolledPoliciesService enrolledPoliciesService;
 
 	@PostMapping("/upload")
 	public ResponseEntity<String> uplaodImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
@@ -136,6 +141,14 @@ public class InsuranceController {
 		return plan;
 	}
 	
+	@PostMapping("/insurance/buy-policy/{customerId}/{schemeId}")
+	public int buyPolicy(@RequestBody EnrolledPolicies enrolledPolicy,@PathVariable("customerId") int customerId
+			,@PathVariable("schemeId") int schemeId) {
+		enrolledPolicy.setInsuranceSchemeId(schemeId);
+		System.out.println(enrolledPolicy);
+		int enrolledId=enrolledPoliciesService.buyPolicy(enrolledPolicy,customerId);
+		return enrolledId;
+	}
 
 	
 	

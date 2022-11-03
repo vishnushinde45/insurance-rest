@@ -1,7 +1,9 @@
 package com.monocept.insuranceapp.entity;
 
-import java.sql.Date;
+
+
 import java.sql.Time;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -53,7 +55,10 @@ public class EnrolledPolicies {
 	private int policyTerm;
 	
 	@Column(name = "premium_type")
-	private PremiumType premiumType;
+	private int premiumType;
+	
+	@Column(name = "installment_amount")
+	private int installmentAmount;
 	
 	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinColumn(name = "customer_id")
@@ -68,11 +73,9 @@ public class EnrolledPolicies {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-
 	public EnrolledPolicies(int id, int insuranceSchemeId, Date enrollDate, Date maturityDate, Time enrollTime,
 			double investedAmount, double interestAmount, double sumAssured, double profitRatio, int policyTerm,
-			PremiumType premiumType, Customer customer) {
+			int premiumType, int installmentAmount, Customer customer, Installments installments) {
 		super();
 		this.id = id;
 		this.insuranceSchemeId = insuranceSchemeId;
@@ -85,53 +88,10 @@ public class EnrolledPolicies {
 		this.profitRatio = profitRatio;
 		this.policyTerm = policyTerm;
 		this.premiumType = premiumType;
+		this.installmentAmount = installmentAmount;
 		this.customer = customer;
+		this.installments = installments;
 	}
-
-
-
-	public EnrolledPolicies(int insuranceSchemeId, Date enrollDate, Date maturityDate, Time enrollTime,
-			double investedAmount, double interestAmount, double sumAssured, double profitRatio, int policyTerm,
-			PremiumType premiumType, Customer customer) {
-		super();
-		this.insuranceSchemeId = insuranceSchemeId;
-		this.enrollDate = enrollDate;
-		this.maturityDate = maturityDate;
-		this.enrollTime = enrollTime;
-		this.investedAmount = investedAmount;
-		this.interestAmount = interestAmount;
-		this.sumAssured = sumAssured;
-		this.profitRatio = profitRatio;
-		this.policyTerm = policyTerm;
-		this.premiumType = premiumType;
-		this.customer = customer;
-	}
-
-
-
-	public PremiumType getPremiumType() {
-		return premiumType;
-	}
-
-
-
-	public void setPremiumType(PremiumType premiumType) {
-		this.premiumType = premiumType;
-	}
-
-
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-
 
 	public int getId() {
 		return id;
@@ -212,6 +172,51 @@ public class EnrolledPolicies {
 	public void setPolicyTerm(int policyTerm) {
 		this.policyTerm = policyTerm;
 	}
+
+	public int getPremiumType() {
+		return premiumType;
+	}
+
+	public void setPremiumType(int premiumType) {
+		this.premiumType = premiumType;
+	}
+
+	public int getInstallmentAmount() {
+		return installmentAmount;
+	}
+
+	public void setInstallmentAmount(int installmentAmount) {
+		this.installmentAmount = installmentAmount;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Installments getInstallments() {
+		return installments;
+	}
+
+	public void setInstallments(Installments installments) {
+		this.installments = installments;
+	}
+
+	@Override
+	public String toString() {
+		return "EnrolledPolicies [id=" + id + ", insuranceSchemeId=" + insuranceSchemeId + ", enrollDate=" + enrollDate
+				+ ", maturityDate=" + maturityDate + ", enrollTime=" + enrollTime + ", investedAmount=" + investedAmount
+				+ ", interestAmount=" + interestAmount + ", sumAssured=" + sumAssured + ", profitRatio=" + profitRatio
+				+ ", policyTerm=" + policyTerm + ", premiumType=" + premiumType + ", installmentAmount="
+				+ installmentAmount + ", customer=" + customer + ", installments=" + installments + "]";
+	}
+
+	
+
+	
 	
 	
 

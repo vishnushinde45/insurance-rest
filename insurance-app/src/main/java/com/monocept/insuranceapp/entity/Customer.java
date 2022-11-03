@@ -1,6 +1,7 @@
 package com.monocept.insuranceapp.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -83,6 +84,15 @@ public class Customer {
 		this.nomineeName = nomineeName;
 		this.nomineeRelation = nomineeRelation;
 		this.agentId = agentId;
+	}
+	
+	
+	public void enrollPolicy(EnrolledPolicies enrollPolicy) {
+		if(enrolledPolicies==null) {
+			enrolledPolicies=new ArrayList<EnrolledPolicies>();
+		}
+		enrollPolicy.setCustomer(this);
+		enrolledPolicies.add(enrollPolicy);
 	}
 
 	public int getId() {
