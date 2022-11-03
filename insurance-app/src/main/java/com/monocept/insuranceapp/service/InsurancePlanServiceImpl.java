@@ -29,4 +29,11 @@ public class InsurancePlanServiceImpl implements InsurancePlanService {
 		return insurancePlanDao.getInsurancePlans();
 	}
 
+	@Override
+	@Transactional
+	public InsurancePlan getInsurancePlan(int id) {
+		// TODO Auto-generated method stub
+		return insurancePlanDao.getInsurancePlan(id);
+	}
+
 }

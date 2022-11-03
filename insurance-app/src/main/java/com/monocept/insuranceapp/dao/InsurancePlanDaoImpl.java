@@ -41,4 +41,11 @@ public class InsurancePlanDaoImpl implements InsurancePlanDao {
 		return resultList;
 	}
 
+	@Override
+	public InsurancePlan getInsurancePlan(int id) {
+		Session session = EntityManager.unwrap(Session.class);
+		InsurancePlan insurancePlan = session.get(InsurancePlan.class, id);
+		return insurancePlan;
+	}
+
 }

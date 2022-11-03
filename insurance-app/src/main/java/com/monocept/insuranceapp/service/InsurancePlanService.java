@@ -10,4 +10,6 @@ public interface InsurancePlanService {
 
 	List<InsurancePlan> getInsurancePlans();
 
+	InsurancePlan getInsurancePlan(int id);
+
 }

@@ -10,4 +10,6 @@ public interface InsurancePlanDao {
 
 	List<InsurancePlan> getInsurancePlans();
 
+	InsurancePlan getInsurancePlan(int id);
+
 }

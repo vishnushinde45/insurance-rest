@@ -130,6 +130,12 @@ public class InsuranceController {
 		return plans;
 	}
 	
+	@GetMapping("/insurance-plan/{id}")
+	public InsurancePlan getInsurancePlan(@PathVariable("id") int id){
+		InsurancePlan plan=insurancePlanService.getInsurancePlan(id);
+		return plan;
+	}
+	
 
 	
 	

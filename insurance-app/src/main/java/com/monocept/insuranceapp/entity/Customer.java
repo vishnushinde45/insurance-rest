@@ -1,12 +1,15 @@
 package com.monocept.insuranceapp.entity;
 
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -56,6 +59,9 @@ public class Customer {
 	
 	@Column(name = "agent_id")
 	private int agentId;
+	
+	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, mappedBy = "customer")
+	private List<EnrolledPolicies> enrolledPolicies;
 	
 	public Customer() {}
 
