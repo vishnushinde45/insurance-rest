@@ -13,8 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.monocept.insuranceapp.dao.EnrolledPoliciesDao;
+import com.monocept.insuranceapp.entity.Agent;
+import com.monocept.insuranceapp.entity.Commision;
 import com.monocept.insuranceapp.entity.Customer;
 import com.monocept.insuranceapp.entity.EnrolledPolicies;
+import com.monocept.insuranceapp.entity.InsuranceScheme;
+import com.monocept.insuranceapp.entity.Transactions;
+import com.monocept.insuranceapp.enums.CommisionType;
+import com.monocept.insuranceapp.enums.TransactionType;
 
 @Service
 public class EnrolledPoliciesServiceImpl implements EnrolledPoliciesService {
@@ -24,6 +30,8 @@ public class EnrolledPoliciesServiceImpl implements EnrolledPoliciesService {
 	@Autowired
 	private EnrolledPoliciesDao enrolledPoliciesDao;
 	
+	private final static int percentage=100;
+	
 	
 	@Override
 	@Transactional
@@ -32,6 +40,20 @@ public class EnrolledPoliciesServiceImpl implements EnrolledPoliciesService {
 		Date maturityDate=getMaturityDate(enrolledDate,enrolledPolicy.getPolicyTerm());
 		Session session = entityManager.unwrap(Session.class);
 		Customer customer = session.get(Customer.class, customerId);
+		InsuranceScheme insuranceScheme = session.get(InsuranceScheme.class, enrolledPolicy.getInsuranceSchemeId());
+		if(customer.getAgentId()!=0) {
+			Agent agent = session.get(Agent.class, customer.getAgentId());
+			
+			double commisionAmount= (enrolledPolicy.getInvestedAmount()/percentage)*insuranceScheme.getCommisionForNewRegistration();
+			Commision commision=new Commision(agent.getId(), agent.getFullName(), customer.getFullName(), customer.getId(), commisionAmount, CommisionType.NewRegiStration);
+			agent.setTotalBalance(agent.getTotalBalance()+commisionAmount);
+			
+			Transactions transactions=new Transactions(TransactionType.DEPOSIT, commisionAmount, agent.getId(), enrolledDate);
+			session.save(transactions);
+			session.save(agent);
+			session.save(commision);
+			
+		}
 		enrolledPolicy.setSumAssured(enrolledPolicy.getInterestAmount()+enrolledPolicy.getInvestedAmount());
 		enrolledPolicy.setEnrollDate(enrolledDate);
 		enrolledPolicy.setMaturityDate(maturityDate);
