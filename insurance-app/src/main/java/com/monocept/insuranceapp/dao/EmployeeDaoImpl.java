@@ -6,9 +6,11 @@ import java.util.Random;
 import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.monocept.insuranceapp.entity.Admin;
 import com.monocept.insuranceapp.entity.Employee;
 
 @Repository
@@ -80,6 +82,39 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	    return generatedString;
 	}
+
+	@Override
+	public Employee login(Employee employee) {
+		Session session = entityManager.unwrap(Session.class);
+		boolean isAuthenticated=authenticate(employee);
+		Employee result=null;
+		if(isAuthenticated)
+			result=this.getByUsername(employee.getUsername());
+		else
+			throw new RuntimeException("Invalid Employee Details");
+		
+		return result;
+	}
+	
+	private boolean authenticate(Employee employee) {
+		Employee emp=this.getByUsername(employee.getUsername());
+		if(employee.getUsername().equals(emp.getUsername()) && employee.getPassword().equals(emp.getPassword()))
+			return true;
+		if(emp==null)
+			return false;
+		return false;
+	}
+	
+	public Employee getByUsername(String username) {
+		Session session = entityManager.unwrap(Session.class);
+		Query query = session.createQuery("from Employee where username=:userName");
+		query.setParameter("userName", username);
+		List resultList = query.getResultList();
+		if(resultList!=null)
+			return (Employee) resultList.get(0);
+		return null;
+	}
+
 
 
 }

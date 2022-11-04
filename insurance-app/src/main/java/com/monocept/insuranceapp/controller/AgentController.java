@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.monocept.insuranceapp.entity.Admin;
 import com.monocept.insuranceapp.entity.Agent;
+import com.monocept.insuranceapp.entity.Commision;
 import com.monocept.insuranceapp.entity.Customer;
 import com.monocept.insuranceapp.service.AgentService;
+import com.monocept.insuranceapp.service.CommisionService;
 
 @RestController
 @RequestMapping("/api")
@@ -27,6 +29,9 @@ public class AgentController {
  
 	@Autowired
 	private AgentService agentService;
+	
+	@Autowired
+	private CommisionService commisionService;
 	
 	
 	@GetMapping("/agents")
@@ -79,6 +84,12 @@ public class AgentController {
 			return new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<Agent>(result,HttpStatus.OK);
+	}
+	
+	@GetMapping("/agent/view-commision/{agentId}")
+	public List<Commision> getCommisionByAgentId(@PathVariable int agentId){
+		List<Commision> commisions=commisionService.getCommisionByAgentId(agentId);
+		return commisions;
 	}
 	
 

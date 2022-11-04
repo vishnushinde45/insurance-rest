@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.monocept.insuranceapp.entity.Agent;
 import com.monocept.insuranceapp.entity.Employee;
 import com.monocept.insuranceapp.service.EmployeeService;
 
@@ -59,6 +60,17 @@ public class EmployeeController {
 		Employee employee = employeeService.deleteEmployee(employeeId);
 		return employee;
 		
+	}
+	
+	@PostMapping("/employees/login")
+	public ResponseEntity<?> login(@RequestBody Employee employee) {
+		Employee result = null;
+		try {
+			result=employeeService.login(employee);
+		}catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Employee>(result,HttpStatus.OK);
 	}
 	
 	

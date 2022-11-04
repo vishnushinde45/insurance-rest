@@ -7,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.monocept.insuranceapp.enums.CommisionType;
-
 @Entity
 @Table(name="commision")
 public class Commision {
@@ -34,17 +32,16 @@ public class Commision {
 	private double amount;
 	
 	@Column(name = "commision_type")
-	private CommisionType commisionType;
+	private String commisionType;
 
 	public Commision() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Commision(int id, int agentId, String agentName, String customerName, int customerId, double amount,
-			CommisionType commisionType) {
+	public Commision(int agentId, String agentName, String customerName, int customerId, double amount,
+			String commisionType) {
 		super();
-		this.id = id;
 		this.agentId = agentId;
 		this.agentName = agentName;
 		this.customerName = customerName;
@@ -53,14 +50,59 @@ public class Commision {
 		this.commisionType = commisionType;
 	}
 
-	public Commision(int agentId, String agentName, String customerName, int customerId, double amount,
-			CommisionType commisionType) {
-		super();
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getAgentId() {
+		return agentId;
+	}
+
+	public void setAgentId(int agentId) {
 		this.agentId = agentId;
+	}
+
+	public String getAgentName() {
+		return agentName;
+	}
+
+	public void setAgentName(String agentName) {
 		this.agentName = agentName;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+
+	public int getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public String getCommisionType() {
+		return commisionType;
+	}
+
+	public void setCommisionType(String commisionType) {
 		this.commisionType = commisionType;
 	}
 
@@ -70,6 +112,9 @@ public class Commision {
 				+ customerName + ", customerId=" + customerId + ", amount=" + amount + ", commisionType="
 				+ commisionType + "]";
 	}
+	
+	
+
 	
 	
 	

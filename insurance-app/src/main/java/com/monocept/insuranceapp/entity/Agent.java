@@ -43,7 +43,7 @@ public class Agent {
 	private int employeeId;
 	
 	@Column(name = "total_balance")
-	private double totalBalance;
+	private double totalBalance=0;
 
 	public Agent() {}
 

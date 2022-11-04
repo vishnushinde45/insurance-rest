@@ -8,8 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.monocept.insuranceapp.enums.TransactionType;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 @Entity
 @Table(name = "transactions")
 public class Transactions {
@@ -20,7 +20,7 @@ public class Transactions {
 	private int id;
 	
 	@Column(name = "transaction_type")
-	private TransactionType transactionType;
+	private String transactionType;
 	
 	@Column(name = "amount")
 	private double amount;
@@ -29,6 +29,7 @@ public class Transactions {
 	private int agentId;
 	
 	@Column(name = "date")
+	@Temporal(TemporalType.DATE)
 	private Date date;
 
 	public Transactions() {
@@ -36,18 +37,8 @@ public class Transactions {
 		// TODO Auto-generated constructor stub
 	}
 
-
-	public Transactions(TransactionType transactionType, double amount, int agentId, Date date) {
+	public Transactions(String transactionType, double amount, int agentId, Date date) {
 		super();
-		this.transactionType = transactionType;
-		this.amount = amount;
-		this.agentId = agentId;
-		this.date = date;
-	}
-
-	public Transactions(int id, TransactionType transactionType, double amount, int agentId, Date date) {
-		super();
-		this.id = id;
 		this.transactionType = transactionType;
 		this.amount = amount;
 		this.agentId = agentId;
@@ -62,11 +53,11 @@ public class Transactions {
 		this.id = id;
 	}
 
-	public TransactionType getTransactionType() {
+	public String getTransactionType() {
 		return transactionType;
 	}
 
-	public void setTransactionType(TransactionType transactionType) {
+	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
 	}
 
@@ -99,6 +90,9 @@ public class Transactions {
 		return "Transactions [id=" + id + ", transactionType=" + transactionType + ", amount=" + amount + ", agentId="
 				+ agentId + ", date=" + date + "]";
 	}
+
+
+	
 	
 	
 	

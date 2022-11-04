@@ -13,8 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "customer")
+@JsonIgnoreProperties(value = {
+	    "enrolledPolicies"
+	})
 public class Customer {
      
 	@Id
@@ -207,14 +212,15 @@ public class Customer {
 		this.agentId = agentId;
 	}
 
-	@Override
-	public String toString() {
-		return "Customer [id=" + id + ", fullName=" + fullName + ", username=" + username + ", password=" + password
-				+ ", dateOfBirth=" + dateOfBirth + ", address=" + address + ", emailId=" + emailId + ", state=" + state
-				+ ", city=" + city + ", pincode=" + pincode + ", mobileNo=" + mobileNo + ", nomineeName=" + nomineeName
-				+ ", nomineeRelation=" + nomineeRelation + ", agentId=" + agentId + "]";
+	public List<EnrolledPolicies> getEnrolledPolicies() {
+		return enrolledPolicies;
 	}
-	
+
+	public void setEnrolledPolicies(List<EnrolledPolicies> enrolledPolicies) {
+		this.enrolledPolicies = enrolledPolicies;
+	}
+
+
 	
 	
 }

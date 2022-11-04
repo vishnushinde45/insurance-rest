@@ -48,13 +48,13 @@ public class InsuranceController {
 
 	@Autowired
 	private InsuranceSchemeService insuranceSchemeService;
-	
+
 	@Autowired
 	private InsurancePlanService insurancePlanService;
-	
+
 	@Autowired
 	private InsuranceSettingsService insuranceSettingService;
-	
+
 	@Autowired
 	private EnrolledPoliciesService enrolledPoliciesService;
 
@@ -84,7 +84,6 @@ public class InsuranceController {
 		return insuranceTypes;
 
 	}
-	
 
 	@PostMapping("/insurance-type")
 	public ResponseEntity<?> addInsuranceType(@RequestBody InsuranceType insuranceType) {
@@ -104,56 +103,64 @@ public class InsuranceController {
 	}
 
 	@GetMapping("/insurance-scheme")
-	public List<InsuranceScheme> getInsuranceSchemes(){
-		List<InsuranceScheme> schemes=insuranceSchemeService.getInsuranceSchemes();
+	public List<InsuranceScheme> getInsuranceSchemes() {
+		List<InsuranceScheme> schemes = insuranceSchemeService.getInsuranceSchemes();
 		return schemes;
 	}
-	
+
 	@GetMapping("/insurance-scheme/{insuranceTypeId}")
-	public List<InsuranceScheme> getInsuranceSchemesByTypeId(@PathVariable("insuranceTypeId") int insuranceTypeId){
-		List<InsuranceScheme> schemes=insuranceSchemeService.getInsuranceSchemesByTypeId(insuranceTypeId);
+	public List<InsuranceScheme> getInsuranceSchemesByTypeId(@PathVariable("insuranceTypeId") int insuranceTypeId) {
+		List<InsuranceScheme> schemes = insuranceSchemeService.getInsuranceSchemesByTypeId(insuranceTypeId);
 		return schemes;
 	}
 
 	@PostMapping("/insurance-plan/{insuranceTypeId}/{insuranceSchemeId}")
-	public ResponseEntity<?> addInsurancePlan(@RequestBody InsurancePlan insurancePlan
-			,@PathVariable("insuranceTypeId") int insuranceTypeId,@PathVariable("insuranceSchemeId") int insuranceSchemeId){
-		  
-		insurancePlanService.addInsurancePlan(insurancePlan,insuranceTypeId,insuranceSchemeId);
-		return new ResponseEntity<String>("Plan Added",HttpStatus.OK);
+	public ResponseEntity<?> addInsurancePlan(@RequestBody InsurancePlan insurancePlan,
+			@PathVariable("insuranceTypeId") int insuranceTypeId,
+			@PathVariable("insuranceSchemeId") int insuranceSchemeId) {
+
+		insurancePlanService.addInsurancePlan(insurancePlan, insuranceTypeId, insuranceSchemeId);
+		return new ResponseEntity<String>("Plan Added", HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/insurance-tax-deduction")
-	public ResponseEntity<?> addInsuranceTax(@RequestBody InsuranceSettings insuranceSettings){
-		InsuranceSettings setting= insuranceSettingService.save(insuranceSettings);
-		return new ResponseEntity<String>("Tax Added",HttpStatus.OK);
+	public ResponseEntity<?> addInsuranceTax(@RequestBody InsuranceSettings insuranceSettings) {
+		InsuranceSettings setting = insuranceSettingService.save(insuranceSettings);
+		return new ResponseEntity<String>("Tax Added", HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/insurance-plan")
-	public List<InsurancePlan> getInsurancePlans(){
-		List<InsurancePlan> plans=insurancePlanService.getInsurancePlans();
+	public List<InsurancePlan> getInsurancePlans() {
+		List<InsurancePlan> plans = insurancePlanService.getInsurancePlans();
 		return plans;
 	}
-	
+
 	@GetMapping("/insurance-plan/{id}")
-	public InsurancePlan getInsurancePlan(@PathVariable("id") int id){
-		InsurancePlan plan=insurancePlanService.getInsurancePlan(id);
+	public InsurancePlan getInsurancePlan(@PathVariable("id") int id) {
+		InsurancePlan plan = insurancePlanService.getInsurancePlan(id);
 		return plan;
 	}
-	
+
 	@PostMapping("/insurance/buy-policy/{customerId}/{schemeId}")
-	public int buyPolicy(@RequestBody EnrolledPolicies enrolledPolicy,@PathVariable("customerId") int customerId
-			,@PathVariable("schemeId") int schemeId) {
+	public int buyPolicy(@RequestBody EnrolledPolicies enrolledPolicy, @PathVariable("customerId") int customerId,
+			@PathVariable("schemeId") int schemeId) {
 		enrolledPolicy.setInsuranceSchemeId(schemeId);
 		System.out.println(enrolledPolicy);
-		int enrolledId=enrolledPoliciesService.buyPolicy(enrolledPolicy,customerId);
+		int enrolledId = enrolledPoliciesService.buyPolicy(enrolledPolicy, customerId);
 		return enrolledId;
 	}
 
-	
-	
+	@GetMapping("/enrolled-policies/{customerId}")
+	public List<EnrolledPolicies> getEnrolledPolicies(@PathVariable("customerId") int customerId) {
+		List<EnrolledPolicies> policies = enrolledPoliciesService.getEnrolledPolicies(customerId);
+		return policies;
 
-
+	}
 	
+	@GetMapping("/enrolled-policy/{policyId}")
+	public EnrolledPolicies getEnrolledPolicyById(@PathVariable("policyId") int policyId) {
+		EnrolledPolicies policy=enrolledPoliciesService.getEnrolledPolicyById(policyId);
+		return policy;
+	}
 
 }

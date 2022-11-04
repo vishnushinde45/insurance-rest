@@ -18,5 +18,7 @@ public interface EmployeeDao {
 	Employee deleteEmployee(int employeeId);
 
 	Employee updateEmployee(Employee employee);
+
+	Employee login(Employee employee);
     
 }

@@ -3,7 +3,9 @@ package com.monocept.insuranceapp.entity;
 
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,13 +15,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import com.monocept.insuranceapp.enums.PremiumType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "enrolled_policies")
+@JsonIgnoreProperties(value = {
+	    "customer"
+	})
 public class EnrolledPolicies {
 	
 	@Id
@@ -30,10 +37,19 @@ public class EnrolledPolicies {
 	@Column(name = "insurance_scheme_id")
 	private int insuranceSchemeId;
 	
+	@Column(name = "insurance_type")
+	private String insuranceType;
+	
+	@Column(name = "insurance_scheme_name")
+	private String insuranceSchemeName;
+	
+	
 	@Column(name = "enroll_date")
+	@Temporal(TemporalType.DATE)
 	private Date enrollDate;
 	
 	@Column(name = "maturity_date")
+	@Temporal(TemporalType.DATE)
 	private Date maturityDate;
 	
 	@Column(name = "enroll_time")
@@ -64,9 +80,9 @@ public class EnrolledPolicies {
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "installments_id")
-	private Installments installments;
+	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, mappedBy = "enrolledPolicies")
+	private List<Installments> installments;
+	
 
 	public EnrolledPolicies() {
 		super();
@@ -75,7 +91,7 @@ public class EnrolledPolicies {
 
 	public EnrolledPolicies(int id, int insuranceSchemeId, Date enrollDate, Date maturityDate, Time enrollTime,
 			double investedAmount, double interestAmount, double sumAssured, double profitRatio, int policyTerm,
-			int premiumType, int installmentAmount, Customer customer, Installments installments) {
+			int premiumType, int installmentAmount, Customer customer) {
 		super();
 		this.id = id;
 		this.insuranceSchemeId = insuranceSchemeId;
@@ -90,9 +106,16 @@ public class EnrolledPolicies {
 		this.premiumType = premiumType;
 		this.installmentAmount = installmentAmount;
 		this.customer = customer;
-		this.installments = installments;
+		
 	}
-
+	
+	public void addInstallment(Installments installment) {
+		if(installments==null) {
+			installments=new ArrayList<Installments>();
+		}
+		installments.add(installment);
+		installment.setEnrolledPolicies(this);
+	}
 	public int getId() {
 		return id;
 	}
@@ -197,21 +220,29 @@ public class EnrolledPolicies {
 		this.customer = customer;
 	}
 
-	public Installments getInstallments() {
+
+	public List<Installments> getInstallments() {
 		return installments;
 	}
 
-	public void setInstallments(Installments installments) {
+	public void setInstallments(List<Installments> installments) {
 		this.installments = installments;
 	}
 
-	@Override
-	public String toString() {
-		return "EnrolledPolicies [id=" + id + ", insuranceSchemeId=" + insuranceSchemeId + ", enrollDate=" + enrollDate
-				+ ", maturityDate=" + maturityDate + ", enrollTime=" + enrollTime + ", investedAmount=" + investedAmount
-				+ ", interestAmount=" + interestAmount + ", sumAssured=" + sumAssured + ", profitRatio=" + profitRatio
-				+ ", policyTerm=" + policyTerm + ", premiumType=" + premiumType + ", installmentAmount="
-				+ installmentAmount + ", customer=" + customer + ", installments=" + installments + "]";
+	public String getInsuranceType() {
+		return insuranceType;
+	}
+
+	public void setInsuranceType(String insuranceType) {
+		this.insuranceType = insuranceType;
+	}
+
+	public String getInsuranceSchemeName() {
+		return insuranceSchemeName;
+	}
+
+	public void setInsuranceSchemeName(String insuranceSchemeName) {
+		this.insuranceSchemeName = insuranceSchemeName;
 	}
 
 	
