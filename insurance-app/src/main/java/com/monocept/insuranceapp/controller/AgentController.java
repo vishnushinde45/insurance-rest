@@ -92,6 +92,15 @@ public class AgentController {
 		return commisions;
 	}
 	
+	@PostMapping("/agents/add-agent/{employeeId}")
+	public int addAgentByEmployee(@RequestBody Agent agent,@PathVariable int employeeId) {
+		agent.setEmployeeId(employeeId);
+		
+		 Agent resultAgent=agentService.addAgent(agent);
+		 return resultAgent.getId();
+		 
+	}
+	
 
 	
 	

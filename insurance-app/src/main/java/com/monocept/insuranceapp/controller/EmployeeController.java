@@ -33,7 +33,7 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/employees/{employeeId}")
-	public ResponseEntity<?> getCustomer(@PathVariable int employeeId) {
+	public ResponseEntity<?> getEmployee(@PathVariable int employeeId) {
 		if(employeeService.getEmployee(employeeId)==null) {
 			 return new ResponseEntity<String>("Employee Not Found..",HttpStatus.BAD_REQUEST);
 			

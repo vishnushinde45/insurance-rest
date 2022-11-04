@@ -35,16 +35,18 @@ public class Employee {
 	
 	@Column(name = "admin_id")
 	private int adminId;
+	
+	@Column(name = "email_id")
+	private String emailId;
 
 	public Employee() {
 		super();
 	
 	}
 
-	public Employee(int id, String fullName, String username, String password, String state, String city, String status,
-			int adminId) {
+	public Employee(String fullName, String username, String password, String state, String city, String status,
+			int adminId, String emailId) {
 		super();
-		this.id = id;
 		this.fullName = fullName;
 		this.username = username;
 		this.password = password;
@@ -52,6 +54,7 @@ public class Employee {
 		this.city = city;
 		this.status = status;
 		this.adminId = adminId;
+		this.emailId = emailId;
 	}
 
 	public int getId() {
@@ -118,13 +121,15 @@ public class Employee {
 		this.adminId = adminId;
 	}
 
-	@Override
-	public String toString() {
-		return "Employee [id=" + id + ", fullName=" + fullName + ", username=" + username + ", password=" + password
-				+ ", state=" + state + ", city=" + city + ", status=" + status + ", adminId=" + adminId + "]";
+	public String getEmailId() {
+		return emailId;
 	}
-	
-	
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+
 
 
 }

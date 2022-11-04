@@ -8,8 +8,11 @@ import javax.persistence.EntityManager;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Repository;
 
+import com.monocept.insuranceapp.email.EmailSenderService;
 import com.monocept.insuranceapp.entity.Admin;
 import com.monocept.insuranceapp.entity.Employee;
 
@@ -18,6 +21,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Autowired
 	EntityManager entityManager;
+	
+	@Autowired
+	private EmailSenderService senderService;
+	
+	@EventListener(ApplicationReadyEvent.class)
+	
+		
+	
 
 	@Override
 	public List<Employee> getEmployees() {
@@ -41,6 +52,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		}else {
 			employee.setPassword(this.generatePassword());
 			session.saveOrUpdate(employee);
+			String mail=employee.getEmailId();
+			String subject="Successfull Registration on Sun Insurance System!";
+			String body="You are Registered Successfully, Your Username is: "+employee.getUsername()+" and password is : "+employee.getPassword();
+			senderService.sendEmail(mail, subject, body);
 			
 		}
 		

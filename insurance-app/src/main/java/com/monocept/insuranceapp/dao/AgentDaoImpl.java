@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.monocept.insuranceapp.email.EmailSenderService;
 import com.monocept.insuranceapp.entity.Admin;
 import com.monocept.insuranceapp.entity.Agent;
 
@@ -18,6 +19,9 @@ public class AgentDaoImpl implements AgentDao {
 
 	@Autowired
 	EntityManager entityManager;
+	
+	@Autowired
+	private EmailSenderService senderService;
 
 	@Override
 	public Agent getAgent(int agentId) {
@@ -40,6 +44,10 @@ public class AgentDaoImpl implements AgentDao {
 			throw new RuntimeException("Agent is already Exists");
 		}else {
 			session.saveOrUpdate(agent);
+			String mail=agent.getEmailId();
+			String subject="Successfull Registration on Sun Insurance System!";
+			String body="You are Registered Successfully, Your Username is: "+agent.getUsername()+" and password is : "+agent.getPassword();
+			senderService.sendEmail(mail, subject, body);
 			
 		}
 		
