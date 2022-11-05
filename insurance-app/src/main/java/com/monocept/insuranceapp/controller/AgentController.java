@@ -11,16 +11,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.monocept.insuranceapp.entity.Admin;
 import com.monocept.insuranceapp.entity.Agent;
 import com.monocept.insuranceapp.entity.Commision;
 import com.monocept.insuranceapp.entity.Customer;
+import com.monocept.insuranceapp.entity.InstallmentPayments;
 import com.monocept.insuranceapp.service.AgentService;
 import com.monocept.insuranceapp.service.CommisionService;
+import com.monocept.insuranceapp.utility.ChangePassword;
+import com.monocept.insuranceapp.utility.Mail;
+import com.monocept.insuranceapp.utility.WithdrawAmount;
 
 @RestController
 @RequestMapping("/api")
@@ -86,10 +92,16 @@ public class AgentController {
 		return new ResponseEntity<Agent>(result,HttpStatus.OK);
 	}
 	
-	@GetMapping("/agent/view-commision/{agentId}")
+	@GetMapping("/agent/commision/{agentId}")
 	public List<Commision> getCommisionByAgentId(@PathVariable int agentId){
 		List<Commision> commisions=commisionService.getCommisionByAgentId(agentId);
 		return commisions;
+	}
+	
+	@GetMapping("/agent/commisions")
+	public List<Commision> getAllCommisions(){
+		List<Commision> listOfCommisions=commisionService.getAllCommisions();
+		return listOfCommisions;
 	}
 	
 	@PostMapping("/agents/add-agent/{employeeId}")
@@ -100,6 +112,24 @@ public class AgentController {
 		 return resultAgent.getId();
 		 
 	}
+	
+	@PostMapping("/agents/sendmail")
+	public void sendMailToCustomer(@RequestBody Mail mailBody) {
+		agentService.sendMail(mailBody);
+	}
+	
+	@PostMapping("/agents/change-password/{agentId}")
+	public void changePassword(@RequestBody ChangePassword passwordBody,@PathVariable int agentId) {
+		agentService.changePassword(passwordBody,agentId);
+	}
+	
+	@PostMapping("/agents/withdraw/{agentId}/{withdrawAmount}")
+	public void withdrawAmount(@PathVariable("agentId") int agentId,@PathVariable("withdrawAmount") int withdrawAmount)
+	{
+		
+		agentService.withdrawAmount(agentId,withdrawAmount);
+	}
+	
 	
 
 	

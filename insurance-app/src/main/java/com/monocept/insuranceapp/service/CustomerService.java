@@ -3,6 +3,7 @@ package com.monocept.insuranceapp.service;
 import java.util.List;
 
 import com.monocept.insuranceapp.entity.Customer;
+import com.monocept.insuranceapp.utility.ChangePassword;
 
 public interface CustomerService {
     
@@ -14,5 +15,6 @@ public interface CustomerService {
 	Customer login(Customer customer);
 	Customer getCustomerByUsername(String username);
 	Customer addCustomerByAgent(Customer customer);
+	void changePassword(ChangePassword passwordBody, int customerId);
 	
 }

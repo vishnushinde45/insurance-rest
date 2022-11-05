@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.monocept.insuranceapp.entity.Customer;
+import com.monocept.insuranceapp.utility.ChangePassword;
 
 public interface CustomerDao {
 	Customer getCustomer(int customerId);
@@ -22,5 +23,7 @@ public interface CustomerDao {
 	Customer getCustomerByUsername(String username);
 
 	Customer addCustomerByAgent(Customer customer);
+
+	void changePassword(ChangePassword passwordBody, int customerId);
 
 }

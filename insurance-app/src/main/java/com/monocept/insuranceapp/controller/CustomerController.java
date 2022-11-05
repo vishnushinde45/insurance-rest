@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.monocept.insuranceapp.entity.Customer;
 import com.monocept.insuranceapp.service.CustomerService;
+import com.monocept.insuranceapp.utility.ChangePassword;
 
 @RestController
 @RequestMapping("/api")
@@ -89,6 +90,11 @@ public class CustomerController {
 		return new ResponseEntity<Customer>(result,HttpStatus.OK);
 		
 		
+	}
+	
+	@PostMapping("/customers/change-password/{customerId}")
+	public void changePassword(@RequestBody ChangePassword passwordBody,@PathVariable int customerId) {
+		customerService.changePassword(passwordBody,customerId);
 	}
 
 }

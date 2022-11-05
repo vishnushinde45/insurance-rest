@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.monocept.insuranceapp.entity.Admin;
+import com.monocept.insuranceapp.entity.Agent;
+import com.monocept.insuranceapp.utility.ChangePassword;
 
 @Repository
 public class AdminDaoImpl implements AdminDao {
@@ -65,6 +67,21 @@ public class AdminDaoImpl implements AdminDao {
 		if(resultList!=null)
 			return (Admin) resultList.get(0);
 		return null;
+		
+	}
+
+	@Override
+	public void changePassword(ChangePassword passwordBody, int adminId) {
+		 Session session = entityManager.unwrap(Session.class);
+		 Admin admin = session.get(Admin.class, adminId);
+		 
+		 if(admin.getPassword().equals(passwordBody.getOldPassword())) {
+			 admin.setPassword(passwordBody.getNewPassword());
+			 session.saveOrUpdate(admin);
+		 }
+		 else {
+		     throw new RuntimeException("Password did not matched, please try again");
+		 }
 		
 	}
 

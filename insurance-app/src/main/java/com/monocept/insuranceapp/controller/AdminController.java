@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.monocept.insuranceapp.entity.Admin;
 import com.monocept.insuranceapp.service.AdminService;
 import com.monocept.insuranceapp.service.AdminServiceImpl;
+import com.monocept.insuranceapp.utility.ChangePassword;
 
 @RestController
 @RequestMapping("/api")
@@ -49,6 +50,12 @@ public class AdminController {
 		}
 		return new ResponseEntity<Admin>(result,HttpStatus.OK);
 	}
+	
+	@PostMapping("/admin/change-password/{adminId}")
+	public void changePassword(@RequestBody ChangePassword passwordBody,@PathVariable int adminId) {
+		adminService.changePassword(passwordBody,adminId);
+	}
+	
 	
 
 }

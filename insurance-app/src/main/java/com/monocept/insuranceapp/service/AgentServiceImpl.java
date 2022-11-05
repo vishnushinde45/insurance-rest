@@ -2,18 +2,33 @@ package com.monocept.insuranceapp.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.monocept.insuranceapp.dao.AgentDao;
+import com.monocept.insuranceapp.email.EmailSenderService;
 import com.monocept.insuranceapp.entity.Agent;
+import com.monocept.insuranceapp.entity.InstallmentPayments;
+import com.monocept.insuranceapp.utility.ChangePassword;
+import com.monocept.insuranceapp.utility.Mail;
+import com.monocept.insuranceapp.utility.WithdrawAmount;
 
 @Service
 public class AgentServiceImpl implements AgentService {
 
 	@Autowired
 	private AgentDao agentDao;
+	
+	@Autowired
+	private EntityManager entityManager;
+	
+	@Autowired
+	private EmailSenderService senderService;
 
 	@Override
 	@Transactional
@@ -50,6 +65,36 @@ public class AgentServiceImpl implements AgentService {
 	public Agent login(Agent agent) {
 		// TODO Auto-generated method stub
 		return agentDao.login(agent);
+	}
+
+	@Override
+	public void sendMail(Mail mailBody) {
+		String mail=mailBody.getEmailId();
+		String subject=mailBody.getSubject();
+		String body=mailBody.getMessage()+" Use My Agent Id :"+mailBody.getAgentId();
+		senderService.sendEmail(mail, subject, body);
+		
+	}
+
+	@Override
+	@Transactional
+	public void changePassword(ChangePassword passwordBody, int agentId) {
+		agentDao.changePassword(passwordBody,agentId);
+		
+	}
+
+	@Override
+	@Transactional
+	public void withdrawAmount(int agentId, int withdrawAmount) {
+		agentDao.withdrawAmount(agentId,withdrawAmount);
+	}
+
+	@Override
+	@Transactional
+	public List<InstallmentPayments> getInstallmentPayments() {
+		Session session = entityManager.unwrap(Session.class);
+		Query query = session.createQuery("from InstallmentPayments");
+		return query.getResultList();
 	}
 
 }

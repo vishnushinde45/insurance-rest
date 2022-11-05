@@ -1,5 +1,6 @@
 package com.monocept.insuranceapp.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Repository;
 import com.monocept.insuranceapp.email.EmailSenderService;
 import com.monocept.insuranceapp.entity.Admin;
 import com.monocept.insuranceapp.entity.Agent;
+import com.monocept.insuranceapp.entity.Transactions;
+import com.monocept.insuranceapp.utility.ChangePassword;
+import com.monocept.insuranceapp.utility.WithdrawAmount;
 
 @Repository
 public class AgentDaoImpl implements AgentDao {
@@ -120,6 +124,35 @@ public class AgentDaoImpl implements AgentDao {
 		if(ag==null)
 			return false;
 		return false;
+	}
+
+	@Override
+	public void changePassword(ChangePassword passwordBody, int agentId){
+		 Session session = entityManager.unwrap(Session.class);
+		 Agent agent = session.get(Agent.class, agentId);
+		 
+		 if(agent.getPassword().equals(passwordBody.getOldPassword())) {
+			 agent.setPassword(passwordBody.getNewPassword());
+			 session.saveOrUpdate(agent);
+		 }
+		 else {
+		     throw new RuntimeException("Password did not matched, please try again");
+		 }
+		
+	}
+
+	@Override
+	public void withdrawAmount(int agentId, int withdrawAmount) {
+		Session session = entityManager.unwrap(Session.class);
+		Agent agent = session.get(Agent.class, agentId);
+		if(withdrawAmount>agent.getTotalBalance() || withdrawAmount<=0) {
+			throw new RuntimeException("AMount greater or smaller");
+		}
+		agent.setTotalBalance(agent.getTotalBalance()-withdrawAmount);
+		Transactions transactions=new Transactions("WITHDRAW", withdrawAmount, agentId, new Date());
+		session.saveOrUpdate(agent);
+		session.saveOrUpdate(transactions);
+		
 	}
 
 }

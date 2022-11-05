@@ -8,4 +8,6 @@ public interface CommisionService {
 
 	List<Commision> getCommisionByAgentId(int agentId);
 
+	List<Commision> getAllCommisions();
+
 }

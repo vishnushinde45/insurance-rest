@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.monocept.insuranceapp.dao.CustomerDao;
 import com.monocept.insuranceapp.entity.Customer;
+import com.monocept.insuranceapp.utility.ChangePassword;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -63,6 +64,12 @@ public class CustomerServiceImpl implements CustomerService {
 	public Customer addCustomerByAgent(Customer customer) {
 		// TODO Auto-generated method stub
 		return customerDao.addCustomerByAgent(customer);
+	}
+
+	@Override
+	public void changePassword(ChangePassword passwordBody, int customerId) {
+		customerDao.changePassword(passwordBody,customerId);
+		
 	}
 
 	

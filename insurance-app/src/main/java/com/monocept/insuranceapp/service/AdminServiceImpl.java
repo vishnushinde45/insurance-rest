@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.monocept.insuranceapp.dao.AdminDao;
 import com.monocept.insuranceapp.entity.Admin;
+import com.monocept.insuranceapp.utility.ChangePassword;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -35,6 +36,13 @@ public class AdminServiceImpl implements AdminService {
 	public Admin getAdmin(int id) {
 		// TODO Auto-generated method stub
 		return adminDao.getAdmin(id);
+	}
+
+	@Override
+	@Transactional
+	public void changePassword(ChangePassword passwordBody, int adminId) {
+		adminDao.changePassword(passwordBody,adminId);
+		
 	}
 
 	
