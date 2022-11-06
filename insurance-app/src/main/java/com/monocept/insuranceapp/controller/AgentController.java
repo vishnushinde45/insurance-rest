@@ -11,22 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.monocept.insuranceapp.entity.Admin;
 import com.monocept.insuranceapp.entity.Agent;
 import com.monocept.insuranceapp.entity.Commision;
-import com.monocept.insuranceapp.entity.Customer;
-import com.monocept.insuranceapp.entity.InstallmentPayments;
 import com.monocept.insuranceapp.service.AgentService;
 import com.monocept.insuranceapp.service.CommisionService;
 import com.monocept.insuranceapp.utility.ChangePassword;
 import com.monocept.insuranceapp.utility.Mail;
-import com.monocept.insuranceapp.utility.WithdrawAmount;
+import com.monocept.insuranceapp.utility.WithdrawCommision;
 
 @RestController
 @RequestMapping("/api")
@@ -123,11 +118,11 @@ public class AgentController {
 		agentService.changePassword(passwordBody,agentId);
 	}
 	
-	@PostMapping("/agents/withdraw/{agentId}/{withdrawAmount}")
-	public void withdrawAmount(@PathVariable("agentId") int agentId,@PathVariable("withdrawAmount") int withdrawAmount)
+	@PutMapping("/agents/withdraw/{agentId}")
+	public void withdrawAmount(@RequestBody WithdrawCommision withdrawBody ,@PathVariable("agentId") int agentId)
 	{
-		
-		agentService.withdrawAmount(agentId,withdrawAmount);
+		 
+		agentService.withdrawAmount(withdrawBody,agentId);
 	}
 	
 	

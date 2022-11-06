@@ -12,7 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 @Entity
 @Table(name = "transactions")
-public class Transactions {
+public class CommisionTransactions {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,12 +32,12 @@ public class Transactions {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 
-	public Transactions() {
+	public CommisionTransactions() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Transactions(String transactionType, double amount, int agentId, Date date) {
+	public CommisionTransactions(String transactionType, double amount, int agentId, Date date) {
 		super();
 		this.transactionType = transactionType;
 		this.amount = amount;

@@ -12,11 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.monocept.insuranceapp.email.EmailSenderService;
-import com.monocept.insuranceapp.entity.Admin;
 import com.monocept.insuranceapp.entity.Agent;
-import com.monocept.insuranceapp.entity.Transactions;
+import com.monocept.insuranceapp.entity.CommisionTransactions;
 import com.monocept.insuranceapp.utility.ChangePassword;
-import com.monocept.insuranceapp.utility.WithdrawAmount;
+import com.monocept.insuranceapp.utility.WithdrawCommision;
 
 @Repository
 public class AgentDaoImpl implements AgentDao {
@@ -142,17 +141,25 @@ public class AgentDaoImpl implements AgentDao {
 	}
 
 	@Override
-	public void withdrawAmount(int agentId, int withdrawAmount) {
+	public void withdrawAmount(WithdrawCommision withdrawBody, int agentId) {
 		Session session = entityManager.unwrap(Session.class);
 		Agent agent = session.get(Agent.class, agentId);
-		if(withdrawAmount>agent.getTotalBalance() || withdrawAmount<=0) {
-			throw new RuntimeException("AMount greater or smaller");
+		
+		if(withdrawBody.getAmount()<agent.getTotalBalance()) {
+			double updatedBalance=agent.getTotalBalance()-withdrawBody.getAmount();
+		     agent.setTotalBalance(updatedBalance);
+		     session.saveOrUpdate(agent);
+			 System.out.println(agent);
+			CommisionTransactions transactions=new CommisionTransactions("WITHDRAW", withdrawBody.getAmount(), agentId, new Date());
+			session.save(transactions);
+		}else {
+			throw new RuntimeException("The Amount is greater than current or invalid amount");
 		}
-		agent.setTotalBalance(agent.getTotalBalance()-withdrawAmount);
-		Transactions transactions=new Transactions("WITHDRAW", withdrawAmount, agentId, new Date());
-		session.saveOrUpdate(agent);
-		session.saveOrUpdate(transactions);
+		  
+		
 		
 	}
+
+
 
 }

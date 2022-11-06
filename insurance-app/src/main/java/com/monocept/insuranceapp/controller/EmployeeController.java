@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.monocept.insuranceapp.entity.Agent;
+import com.monocept.insuranceapp.entity.CommisionTransactions;
 import com.monocept.insuranceapp.entity.Employee;
+import com.monocept.insuranceapp.service.CommisionService;
+import com.monocept.insuranceapp.service.CustomerService;
 import com.monocept.insuranceapp.service.EmployeeService;
+import com.monocept.insuranceapp.utility.ChangePassword;
 
 @RestController
 @RequestMapping("/api")
@@ -25,7 +29,10 @@ import com.monocept.insuranceapp.service.EmployeeService;
 public class EmployeeController {
   
 	@Autowired
-	EmployeeService employeeService;
+	private EmployeeService employeeService;
+	
+	@Autowired
+	private CommisionService commisionService;
 	
 	@GetMapping("/employees")
 	public List<Employee> getEmployees(){
@@ -43,12 +50,7 @@ public class EmployeeController {
 	   
 	}
 	
-	@PostMapping("/employees")
-	public Employee addEmployee(@RequestBody Employee employee) {
-		Employee emp=employeeService.addEmployee(employee);
-		return emp;
-	}
-	
+
 	@PutMapping("/employees")
 	public Employee updateEmployee(@RequestBody Employee employee) {
 		Employee emp=employeeService.updateEmployee(employee);
@@ -71,6 +73,23 @@ public class EmployeeController {
 			return new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<Employee>(result,HttpStatus.OK);
+	}
+	
+	@PostMapping("/employees/change-password/{employeeId}")
+	public void changePassword(@RequestBody ChangePassword passwordBody,@PathVariable int employeeId) {
+		employeeService.changePassword(passwordBody,employeeId);
+	}
+	
+	@PostMapping("/employees/{adminId}")
+	public Employee addEmployeeByAdmin(@RequestBody Employee employee,@PathVariable("adminId") int adminId) {
+		Employee emp=employeeService.addEmployeeByAdmin(employee,adminId);
+		return emp;
+	}
+	
+	@GetMapping("/employees/commision-withdrawls")
+	public List<CommisionTransactions> getCommisionWithdrawls(){
+		List<CommisionTransactions> commisionWithdrawls=commisionService.getCommisionWithdrawls();
+		return commisionWithdrawls;
 	}
 	
 	

@@ -6,7 +6,7 @@ import com.monocept.insuranceapp.entity.Agent;
 import com.monocept.insuranceapp.entity.InstallmentPayments;
 import com.monocept.insuranceapp.utility.ChangePassword;
 import com.monocept.insuranceapp.utility.Mail;
-import com.monocept.insuranceapp.utility.WithdrawAmount;
+import com.monocept.insuranceapp.utility.WithdrawCommision;
 
 public interface AgentService {
 	Agent getAgent(int agentId);
@@ -17,6 +17,6 @@ public interface AgentService {
 	Agent login(Agent agent);
 	void sendMail(Mail mailBody);
 	void changePassword(ChangePassword passwordBody, int agentId);
-	void withdrawAmount(int agentId, int withdrawAmount);
 	List<InstallmentPayments> getInstallmentPayments();
+	void withdrawAmount(WithdrawCommision withdrawBody, int agentId);
 }

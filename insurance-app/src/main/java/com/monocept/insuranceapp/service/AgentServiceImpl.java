@@ -16,7 +16,7 @@ import com.monocept.insuranceapp.entity.Agent;
 import com.monocept.insuranceapp.entity.InstallmentPayments;
 import com.monocept.insuranceapp.utility.ChangePassword;
 import com.monocept.insuranceapp.utility.Mail;
-import com.monocept.insuranceapp.utility.WithdrawAmount;
+import com.monocept.insuranceapp.utility.WithdrawCommision;
 
 @Service
 public class AgentServiceImpl implements AgentService {
@@ -83,11 +83,6 @@ public class AgentServiceImpl implements AgentService {
 		
 	}
 
-	@Override
-	@Transactional
-	public void withdrawAmount(int agentId, int withdrawAmount) {
-		agentDao.withdrawAmount(agentId,withdrawAmount);
-	}
 
 	@Override
 	@Transactional
@@ -96,5 +91,13 @@ public class AgentServiceImpl implements AgentService {
 		Query query = session.createQuery("from InstallmentPayments");
 		return query.getResultList();
 	}
+
+	@Override
+	@Transactional
+	public void withdrawAmount(WithdrawCommision withdrawBody, int agentId) {
+		agentDao.withdrawAmount(withdrawBody,agentId);
+		
+	}
+
 
 }

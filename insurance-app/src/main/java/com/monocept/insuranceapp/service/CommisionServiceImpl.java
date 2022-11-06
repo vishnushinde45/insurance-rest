@@ -1,6 +1,7 @@
 package com.monocept.insuranceapp.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -11,13 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.monocept.insuranceapp.dao.CommisionDao;
+import com.monocept.insuranceapp.dao.CommisionTransactionsDao;
 import com.monocept.insuranceapp.entity.Commision;
+import com.monocept.insuranceapp.entity.CommisionTransactions;
 
 @Service
 public class CommisionServiceImpl implements CommisionService {
 
 	@Autowired
 	private CommisionDao commisionDao;
+	
+	@Autowired
+	private CommisionTransactionsDao commisionTransactionsDao;
 	
 	@Autowired
 	EntityManager entityManager;
@@ -37,6 +43,14 @@ public class CommisionServiceImpl implements CommisionService {
 	public List<Commision> getAllCommisions() {
 		List<Commision> list = commisionDao.findAll();
 		return list;
+	}
+
+	@Override
+	@Transactional
+	public List<CommisionTransactions> getCommisionWithdrawls() {
+		List<CommisionTransactions> allTransactions = commisionTransactionsDao.findAll();
+		List<CommisionTransactions> withdrawls = allTransactions.stream().filter(transaction->transaction.getTransactionType().equalsIgnoreCase("WITHDRAW")).collect(Collectors.toList());
+		return withdrawls;
 	}
 	
 }

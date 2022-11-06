@@ -22,7 +22,7 @@ import com.monocept.insuranceapp.entity.EnrolledPolicies;
 import com.monocept.insuranceapp.entity.Installments;
 import com.monocept.insuranceapp.entity.InsuranceScheme;
 import com.monocept.insuranceapp.entity.InsuranceType;
-import com.monocept.insuranceapp.entity.Transactions;
+import com.monocept.insuranceapp.entity.CommisionTransactions;
 import com.monocept.insuranceapp.utility.InstallmentCalculator;
 
 @Service
@@ -53,7 +53,7 @@ public class EnrolledPoliciesServiceImpl implements EnrolledPoliciesService {
 			Commision commision=new Commision(agent.getId(), agent.getFullName(), customer.getFullName(), customer.getId(), commisionAmount, "NewRegistration");
 			agent.setTotalBalance(agent.getTotalBalance()+commisionAmount);
 			
-			Transactions transactions=new Transactions("Deposit", commisionAmount, agent.getId(), enrolledDate);
+			CommisionTransactions transactions=new CommisionTransactions("DEPOSIT", commisionAmount, agent.getId(), enrolledDate);
 			session.save(transactions);
 			session.save(agent);
 			session.save(commision);

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.monocept.insuranceapp.entity.Agent;
 import com.monocept.insuranceapp.utility.ChangePassword;
-import com.monocept.insuranceapp.utility.WithdrawAmount;
+import com.monocept.insuranceapp.utility.WithdrawCommision;
 
 public interface AgentDao {
 	Agent getAgent(int agentId);
@@ -14,5 +14,5 @@ public interface AgentDao {
 	Agent deleteAgent(int agentId);
 	Agent login(Agent agent);
 	void changePassword(ChangePassword passwordBody, int agentId);
-	void withdrawAmount(int agentId, int withdrawAmount);
+	void withdrawAmount(WithdrawCommision withdrawBody, int agentId);
 }

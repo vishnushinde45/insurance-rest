@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.monocept.insuranceapp.dao.EmployeeDao;
 import com.monocept.insuranceapp.entity.Employee;
+import com.monocept.insuranceapp.utility.ChangePassword;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -27,11 +28,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return employeeDao.getEmployees();
 	}
 
-	@Override
-	@Transactional
-	public Employee addEmployee(Employee employee) {
-		return employeeDao.addEmployee(employee);
-	}
 
 	@Override
 	@Transactional
@@ -50,6 +46,20 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public Employee login(Employee employee) {
 		// TODO Auto-generated method stub
 		return employeeDao.login(employee);
+	}
+
+	@Override
+	@Transactional
+	public void changePassword(ChangePassword passwordBody, int employeeId) {
+		employeeDao.changePassword(passwordBody,employeeId);
+		
+	}
+
+	@Override
+	@Transactional
+	public Employee addEmployeeByAdmin(Employee employee, int adminId) {
+		Employee emp=employeeDao.addEmployeeByAdmin(employee,adminId);
+		return emp;
 	}
 
 	

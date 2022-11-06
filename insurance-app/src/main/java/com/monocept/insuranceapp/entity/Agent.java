@@ -36,9 +36,6 @@ public class Agent {
 	@Column(name = "qualification")
 	private String qualification;
 	
-	@Column(name = "status")
-	private String status;
-	
 	@Column(name = "employee_id")
 	private int employeeId;
 	
@@ -48,7 +45,7 @@ public class Agent {
 	public Agent() {}
 
 	public Agent(int id, String fullName, String username, String password, String state, String city, String emailId,
-			String qualification, String status, int employeeId, double totalBalance) {
+			String qualification,int employeeId, double totalBalance) {
 		super();
 		this.id = id;
 		this.fullName = fullName;
@@ -58,7 +55,6 @@ public class Agent {
 		this.city = city;
 		this.emailId = emailId;
 		this.qualification = qualification;
-		this.status = status;
 		this.employeeId = employeeId;
 		this.totalBalance = totalBalance;
 	}
@@ -127,13 +123,6 @@ public class Agent {
 		this.qualification = qualification;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public int getEmployeeId() {
 		return employeeId;
@@ -149,6 +138,13 @@ public class Agent {
 
 	public void setTotalBalance(double totalBalance) {
 		this.totalBalance = totalBalance;
+	}
+
+	@Override
+	public String toString() {
+		return "Agent [id=" + id + ", fullName=" + fullName + ", username=" + username + ", password=" + password
+				+ ", state=" + state + ", city=" + city + ", emailId=" + emailId + ", qualification=" + qualification
+				+ ", employeeId=" + employeeId + ", totalBalance=" + totalBalance + "]";
 	}
 
 	

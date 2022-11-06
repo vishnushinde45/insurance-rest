@@ -30,8 +30,6 @@ public class Employee {
 	@Column(name = "city")
 	private String city;
 	
-	@Column(name = "status")
-	private String status;
 	
 	@Column(name = "admin_id")
 	private int adminId;
@@ -44,7 +42,7 @@ public class Employee {
 	
 	}
 
-	public Employee(String fullName, String username, String password, String state, String city, String status,
+	public Employee(String fullName, String username, String password, String state, String city,
 			int adminId, String emailId) {
 		super();
 		this.fullName = fullName;
@@ -52,7 +50,6 @@ public class Employee {
 		this.password = password;
 		this.state = state;
 		this.city = city;
-		this.status = status;
 		this.adminId = adminId;
 		this.emailId = emailId;
 	}
@@ -103,14 +100,6 @@ public class Employee {
 
 	public void setCity(String city) {
 		this.city = city;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	public int getAdminId() {

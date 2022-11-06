@@ -14,7 +14,9 @@ import org.springframework.stereotype.Repository;
 
 import com.monocept.insuranceapp.email.EmailSenderService;
 import com.monocept.insuranceapp.entity.Admin;
+import com.monocept.insuranceapp.entity.Customer;
 import com.monocept.insuranceapp.entity.Employee;
+import com.monocept.insuranceapp.utility.ChangePassword;
 
 @Repository
 public class EmployeeDaoImpl implements EmployeeDao {
@@ -45,12 +47,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public Employee addEmployee(Employee employee) {
+	public Employee addEmployeeByAdmin(Employee employee,int adminId) {
 		Session session = entityManager.unwrap(Session.class);
 		if(checkUserIsAlreadyExist(employee)) {
 			throw new RuntimeException("Employee is Already Exist..");
 		}else {
 			employee.setPassword(this.generatePassword());
+			employee.setAdminId(adminId);
 			session.saveOrUpdate(employee);
 			String mail=employee.getEmailId();
 			String subject="Successfull Registration on Sun Insurance System!";
@@ -130,6 +133,22 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return null;
 	}
 
+	@Override
+	public void changePassword(ChangePassword passwordBody, int employeeId) {
+		Session session = entityManager.unwrap(Session.class);
+		Employee employee = session.get(Employee.class, employeeId);
+		 
+		 if(employee.getPassword().equals(passwordBody.getOldPassword())) {
+			 employee.setPassword(passwordBody.getNewPassword());
+			 session.saveOrUpdate(employee);
+		 }
+		 else {
+		     throw new RuntimeException("Password did not matched, please try again");
+		 }
+		
+	}
+
+	
 
 
 }
