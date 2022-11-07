@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.monocept.insuranceapp.entity.Agent;
 import com.monocept.insuranceapp.entity.Commision;
 import com.monocept.insuranceapp.entity.Customer;
+import com.monocept.insuranceapp.entity.Documents;
 import com.monocept.insuranceapp.utility.ChangePassword;
 
 @Repository
@@ -129,6 +130,17 @@ public class CustomerDaoImpl implements CustomerDao {
 		     throw new RuntimeException("Password did not matched, please try again");
 		 }
 		
+	}
+
+
+
+	@Override
+	public void addDocument(int customerId, String documentType, String fileDownloadUri) {
+		Session session = entityManager.unwrap(Session.class);
+		Customer customer = session.get(Customer.class, customerId);
+		
+	    customer.addDocument(documentType,fileDownloadUri);
+		session.saveOrUpdate(customer);
 	}
 
 	

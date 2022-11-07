@@ -26,4 +26,6 @@ public interface CustomerDao {
 
 	void changePassword(ChangePassword passwordBody, int customerId);
 
+	void addDocument(int customerId, String documentType, String fileDownloadUri);
+
 }

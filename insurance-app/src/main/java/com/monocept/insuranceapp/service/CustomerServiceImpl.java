@@ -67,8 +67,16 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@Transactional
 	public void changePassword(ChangePassword passwordBody, int customerId) {
 		customerDao.changePassword(passwordBody,customerId);
+		
+	}
+
+	@Override
+	@Transactional
+	public void addDocument(int customerId,String documentType, String fileDownloadUri) {
+		customerDao.addDocument(customerId,documentType,fileDownloadUri);
 		
 	}
 

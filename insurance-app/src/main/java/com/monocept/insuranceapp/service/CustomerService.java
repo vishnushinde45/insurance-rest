@@ -16,5 +16,6 @@ public interface CustomerService {
 	Customer getCustomerByUsername(String username);
 	Customer addCustomerByAgent(Customer customer);
 	void changePassword(ChangePassword passwordBody, int customerId);
+	void addDocument(int customerId, String documentType, String fileDownloadUri);
 	
 }

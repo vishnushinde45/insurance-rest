@@ -10,66 +10,72 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "customer")
-@JsonIgnoreProperties(value = {
-	    "enrolledPolicies"
-	})
+@JsonIgnoreProperties(value = { "enrolledPolicies" })
 public class Customer {
-     
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
+
 	@Column(name = "full_name")
 	private String fullName;
-	
+
 	@Column(name = "user_name")
 	private String username;
-	
+
 	@Column(name = "password")
 	private String password;
-	
+
 	@Column(name = "date_of_birth")
 	private Date dateOfBirth;
-	
+
 	@Column(name = "address")
 	private String address;
-	
+
 	@Column(name = "email_id")
 	private String emailId;
-	
+
 	@Column(name = "state")
 	private String state;
-	
+
 	@Column(name = "city")
 	private String city;
-	
+
 	@Column(name = "pincode")
 	private int pincode;
-	
+
 	@Column(name = "mobile_no")
 	private String mobileNo;
-	
+
 	@Column(name = "nominee_name")
 	private String nomineeName;
-	
+
 	@Column(name = "nominee_relation")
 	private String nomineeRelation;
-	
+
 	@Column(name = "agent_id")
 	private int agentId;
-	
-	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, mappedBy = "customer")
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "document_id")
+	private Documents documents;
+
+	@OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH }, mappedBy = "customer")
 	private List<EnrolledPolicies> enrolledPolicies;
-	
-	public Customer() {}
+
+	public Customer() {
+	}
 
 	public Customer(int id, String fullName, String username, String password, Date dateOfBirth, String address,
 			String emailId, String state, String city, int pincode, String mobileNo, String nomineeName,
@@ -90,14 +96,21 @@ public class Customer {
 		this.nomineeRelation = nomineeRelation;
 		this.agentId = agentId;
 	}
-	
-	
+
 	public void enrollPolicy(EnrolledPolicies enrollPolicy) {
-		if(enrolledPolicies==null) {
-			enrolledPolicies=new ArrayList<EnrolledPolicies>();
+		if (enrolledPolicies == null) {
+			enrolledPolicies = new ArrayList<EnrolledPolicies>();
 		}
 		enrollPolicy.setCustomer(this);
 		enrolledPolicies.add(enrollPolicy);
+	}
+
+	public Documents getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(Documents documents) {
+		this.documents = documents;
 	}
 
 	public int getId() {
@@ -220,7 +233,21 @@ public class Customer {
 		this.enrolledPolicies = enrolledPolicies;
 	}
 
+	public void addDocument(String documentType, String fileDownloadUri) 
+	{
+		if(documents==null) {
+			documents=new Documents();
+		}
+		if(documentType.equalsIgnoreCase("Pan Card"))
+			documents.setPanCardUrl(fileDownloadUri);
+		if(documentType.equalsIgnoreCase("Aadhar Card"))
+			documents.setAadharCardUrl(fileDownloadUri);
+		if(documentType.equalsIgnoreCase("Bank Passbook"))
+			documents.setBankPassbookUrl(fileDownloadUri);
+		
+		
+	}
 
-	
-	
+
+
 }
