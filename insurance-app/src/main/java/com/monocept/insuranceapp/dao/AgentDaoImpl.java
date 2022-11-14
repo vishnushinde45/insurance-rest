@@ -145,7 +145,7 @@ public class AgentDaoImpl implements AgentDao {
 		Session session = entityManager.unwrap(Session.class);
 		Agent agent = session.get(Agent.class, agentId);
 		
-		if(withdrawBody.getAmount()<agent.getTotalBalance()) {
+		if(withdrawBody.getAmount()<agent.getTotalBalance() && withdrawBody.getAmount()>0) {
 			double updatedBalance=agent.getTotalBalance()-withdrawBody.getAmount();
 		     agent.setTotalBalance(updatedBalance);
 		     session.saveOrUpdate(agent);
